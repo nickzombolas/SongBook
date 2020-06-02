@@ -3,14 +3,16 @@ const router = express.Router()
 
 const Song = require('../../models/Song')
 
+// GET
 // Find all Songs
 router.get('/', (req, res) => {
   Song.find({})
     .then(songs => res.json(songs))
 })
 
+// POST
+// Create a new song
 router.post('/', (req, res) => {
-
   const newSong = new Song({
     title: req.body.title,
     composer: req.body.composer,
@@ -32,6 +34,7 @@ router.post('/:id', (req, res) => {
   })
 })
 
+// DELETE
 // Delete an Item by ID
 router.delete('/:id', (req, res) => {
   Song.findById(req.params.id)
