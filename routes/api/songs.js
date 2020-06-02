@@ -13,21 +13,24 @@ router.get('/', (req, res) => {
 // POST
 // Create a new song
 router.post('/', (req, res) => {
-  const newSong = new Song({
-    title: req.body.title,
-    composer: req.body.composer,
-    arranger: req.body.arranger
+  const { title, composer, arranger } = req.body
+  Song.create({
+    title,
+    composer,
+    arranger
+  }).then(song => {
+    res.json(song)
   })
-  newSong.save().then(song => res.json(song))
 })
 
 // POST
 // Update one song
 router.post('/:id', (req, res) => {
+  const { title, composer, arranger } = req.body
   Song.updateOne({ _id: req.params.id }, {
-    title: req.body.title,
-    composer: req.body.composer,
-    arranger: req.body.arranger
+    title,
+    composer,
+    arranger
   }).then(result => {
     console.log(result)
     Song.findById({ _id: req.params.id }).then(song => res.json(song))
@@ -37,13 +40,9 @@ router.post('/:id', (req, res) => {
 // DELETE
 // Delete an Item by ID
 router.delete('/:id', (req, res) => {
-  Song.findById(req.params.id)
-    .then(song => song.remove().then(() => {
-      res.json({ success: true })
-    }))
-    .catch(err => {
-      res.status(404).json({ success: false })
-    })
+  Song.deleteOne({ _id: req.params.id })
+    .then(res.json({ success: true }))
+    .catch(err => console.log(err))
 })
 
 module.exports = router
