@@ -19,6 +19,19 @@ router.post('/', (req, res) => {
   newSong.save().then(song => res.json(song))
 })
 
+// POST
+// Update one song
+router.post('/:id', (req, res) => {
+  Song.updateOne({ _id: req.params.id }, {
+    title: req.body.title,
+    composer: req.body.composer,
+    arranger: req.body.arranger
+  }).then(result => {
+    console.log(result)
+    Song.findById({ _id: req.params.id }).then(song => res.json(song))
+  })
+})
+
 // Delete an Item by ID
 router.delete('/:id', (req, res) => {
   Song.findById(req.params.id)
