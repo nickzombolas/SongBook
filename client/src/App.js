@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import AppNavBar from './components/AppNavBar'
 
 function App() {
   return (
-    <div className="App">
-      <h1>SongBook</h1>
-    </div>
+    <>
+      <AppNavBar />
+    </>
   );
 }
 
