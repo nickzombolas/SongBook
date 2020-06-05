@@ -1,4 +1,21 @@
 .App {
-  text-align: center;
+  margin: 50px;
+  display: flex;
 }
 
+.list {
+  width: 33%;
+  padding: 10px;
+}
+
+.left {
+  float: left;
+}
+
+.center {
+  display: inline-block;
+}
+
+.right {
+  float: right;
+}
