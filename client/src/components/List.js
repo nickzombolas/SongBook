@@ -1,11 +1,30 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
+const WANT_TO_LEARN = 'WANT_TO_LEARN'
+const LEARNING = 'LEARNING'
+const LEARNED = 'LEARNED'
 
 class List extends Component{
 
   state = {
-    songs: ['Testing Song 1', 'Testing Song 2', 'Testing Song 3']
+    songs: [
+      {
+        title: 'testTitle1',
+        composer: 'TestComposer1',
+        status: WANT_TO_LEARN,
+      },
+      {
+        title: 'testTitle2',
+        composer: 'TestComposer2',
+        status: LEARNING
+      },
+      {
+        title: 'testTitle3',
+        composer: 'TestComposer3',
+        status: LEARNED
+      },
+    ]
   }
 
   onClick = () => {
@@ -20,7 +39,7 @@ class List extends Component{
         <h1 className="text-center">List Title</h1>
           {this.state.songs.map(song => {
             return(
-              <ListGroupItem tag="button" onClick={this.onClick}>{song}</ListGroupItem>
+              <ListGroupItem tag="button" onClick={this.onClick}>{song.title}</ListGroupItem>
             )
           })}
         </ListGroup>
