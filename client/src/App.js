@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AppNavBar from './components/AppNavBar'
 import List from './components/List'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <List className="center" />
           <List className="right" />
         </div>
+        <Footer />
     </>
   );
 }

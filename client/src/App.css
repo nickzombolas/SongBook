@@ -19,3 +19,11 @@
 .right {
   float: right;
 }
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #212529;
+  padding: 7px;
+}
