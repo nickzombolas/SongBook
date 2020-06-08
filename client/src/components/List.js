@@ -36,7 +36,7 @@ class List extends Component{
     return(
       <div className="list">
         <ListGroup>
-        <h1 className="text-center">List Title</h1>
+    <h1 className="text-center">{this.props.title}</h1>
           {this.state.songs.map(song => {
             return(
               <ListGroupItem tag="button" onClick={this.onClick}>{song.title}</ListGroupItem>

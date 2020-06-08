@@ -10,9 +10,9 @@ function App() {
     <>
       <AppNavBar />
         <div className="App">
-          <List className="left" />
-          <List className="center" />
-          <List className="right" />
+          <List className="left" title="Want to Learn" />
+          <List className="center" title="Learning" />
+          <List className="right" title="Learned" />
         </div>
         <Footer />
     </>
