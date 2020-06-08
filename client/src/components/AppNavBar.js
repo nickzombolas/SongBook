@@ -7,9 +7,19 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import SongModal from './SongModal'
 
 class AppNavBar extends Component {
 
+  state = {
+    modal: false
+  }
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    })
+  }
 
   render(){
     return(
@@ -24,7 +34,8 @@ class AppNavBar extends Component {
               <NavLink className="text-light" href="https://github.com/nickzombolas/SongBook">GitHub</NavLink>
             </NavItem>
           </Nav>
-          <Button>Add New Song</Button>
+          <Button onClick={this.toggle}>Add New Song</Button>
+          <SongModal modal={this.state.modal} toggle={this.toggle} />
         </Navbar>
       </>
     )
