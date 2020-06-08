@@ -65,6 +65,26 @@ class SongModal extends Component {
                   onChange={this.handleChange}
                 />
               </FormGroup>
+              <FormGroup tag="fieldset">
+                <FormGroup check>
+                  <Label check>
+                    <Input type="radio" name="status" />{' '}
+                    Want to Learn
+                  </Label>
+                </FormGroup>
+                <FormGroup check>
+                  <Label check>
+                    <Input type="radio" name="status" />{' '}
+                    Learning
+                  </Label>
+                </FormGroup>
+                <FormGroup check>
+                  <Label check>
+                    <Input type="radio" name="status" />{' '}
+                    Learned
+                  </Label>
+                </FormGroup>
+              </FormGroup>
               <Button color="primary">Save</Button>
               <Button onClick={this.props.toggle} color="secondary">Cancel</Button>
             </Form>
