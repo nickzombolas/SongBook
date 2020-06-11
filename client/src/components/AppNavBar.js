@@ -7,7 +7,11 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import { connect } from 'react-redux'
+
 import SongModal from './SongModal'
+import { test } from '../actions/songActions'
+
 
 class AppNavBar extends Component {
 
@@ -33,6 +37,7 @@ class AppNavBar extends Component {
             <NavItem>
               <NavLink className="text-light" href="https://github.com/nickzombolas/SongBook">GitHub</NavLink>
             </NavItem>
+            <Button onClick={this.props.test}>test</Button>
           </Nav>
           <Button onClick={this.toggle}>Add New Song</Button>
           <SongModal modal={this.state.modal} toggle={this.toggle} />
@@ -42,4 +47,11 @@ class AppNavBar extends Component {
   }
 }
 
-export default AppNavBar
+const mapStateToProps = state => ({
+  song: state.song
+})
+
+export default connect(
+  mapStateToProps,
+  { test })
+  (AppNavBar)
