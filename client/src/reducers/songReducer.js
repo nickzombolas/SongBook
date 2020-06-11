@@ -1,8 +1,7 @@
-import { TEST, REMOVE } from '../actions/types'
+import { REMOVE } from '../actions/types'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 
 const initialState = {
-  test: false,
   songs: [
     {
       _id: 1,
@@ -51,11 +50,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case TEST:
-      return {
-        ...state,
-        test: true
-      }
     case REMOVE:
       return {
         ...state,

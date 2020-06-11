@@ -7,11 +7,8 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import { connect } from 'react-redux'
 
 import SongModal from './SongModal'
-import { test } from '../actions/songActions'
-
 
 class AppNavBar extends Component {
 
@@ -47,11 +44,4 @@ class AppNavBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  song: state.song
-})
-
-export default connect(
-  mapStateToProps,
-  { test })
-  (AppNavBar)
+export default AppNavBar
