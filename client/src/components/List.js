@@ -1,45 +1,38 @@
 import React, { Component } from 'react'
-import { ListGroup, ListGroupItem } from 'reactstrap'
-
-const WANT_TO_LEARN = 'WANT_TO_LEARN'
-const LEARNING = 'LEARNING'
-const LEARNED = 'LEARNED'
+import { ListGroup, ListGroupItem, Button } from 'reactstrap'
+import { connect } from 'react-redux'
 
 class List extends Component{
-
-  state = {
-    songs: [
-      {
-        title: 'testTitle1',
-        composer: 'TestComposer1',
-        status: WANT_TO_LEARN,
-      },
-      {
-        title: 'testTitle2',
-        composer: 'TestComposer2',
-        status: LEARNING
-      },
-      {
-        title: 'testTitle3',
-        composer: 'TestComposer3',
-        status: LEARNED
-      },
-    ]
-  }
 
   onClick = () => {
     console.log('Item Clicked!')
     // TODO: open modal on click to display song information
   }
 
+  onDelete = () => {
+    console.log('delete clicked')
+  }
+
   render(){
+    const songs = this.props.song.songs.filter(song => song.status == this.props.status)
     return(
       <div className="list">
         <ListGroup>
-    <h1 className="text-center">{this.props.title}</h1>
-          {this.state.songs.map(song => {
+          <h1 className="text-center">{this.props.status}</h1>
+          {songs.map(song => {
             return(
-              <ListGroupItem tag="button" onClick={this.onClick}>{song.title}</ListGroupItem>
+              <div className="container">
+                <Button
+                  className="remove-btn left"
+                  color="danger"
+                  size="sm"
+                  onClick={this.onDelete}
+                >
+                &times;</Button>
+                <ListGroupItem className="right" tag="button" onClick={this.onClick}>
+                  {song.title}, {song.composer}
+                </ListGroupItem>
+              </div>
             )
           })}
         </ListGroup>
@@ -48,4 +41,11 @@ class List extends Component{
   }
 }
 
-export default List
+const mapStateToProps = state => ({
+  song: state.song
+})
+
+export default connect(
+  mapStateToProps,
+)
+(List)

@@ -7,6 +7,8 @@ import AppNavBar from './components/AppNavBar'
 import List from './components/List'
 import Footer from './components/Footer'
 import store from './store'
+import { WANT_TO_LEARN, LEARNING, LEARNED } from './constants'
+
 
 function App() {
   return (
@@ -14,9 +16,9 @@ function App() {
       <Provider store={store}>
         <AppNavBar />
           <div className="App">
-            <List className="left" title="Want to Learn" />
-            <List className="center" title="Learning" />
-            <List className="right" title="Learned" />
+            <List className="left" status={WANT_TO_LEARN} />
+            <List className="center" status={LEARNING} />
+            <List className="right" status={LEARNED} />
           </div>
           <Footer />
       </Provider>
