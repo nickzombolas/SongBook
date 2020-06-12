@@ -18,7 +18,7 @@
 
 .right {
   float: right;
-  width: 100%
+  width: 100%;
 }
 
 .footer {
@@ -31,4 +31,8 @@
 
 .container {
   display: flex
+}
+
+.arrow {
+  height: 20px;
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { connect } from 'react-redux'
 import { removeSong } from '../actions/songActions'
+import arrow from '../assets/arrow-right-solid.svg'
+import { WANT_TO_LEARN, LEARNING } from '../constants'
 
 class List extends Component{
 
@@ -17,7 +19,7 @@ class List extends Component{
   }
 
   render(){
-    const songs = this.props.song.songs.filter(song => song.status == this.props.status)
+    const songs = this.props.song.songs.filter(song => song.status === this.props.status)
     return(
       <div className="list">
         <ListGroup>
@@ -34,6 +36,12 @@ class List extends Component{
                 &times;</Button>
                 <ListGroupItem className="right" tag="button" onClick={this.onClick}>
                   {song.title}, {song.composer}
+                  {
+                    (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
+                    <Button className="float-right" color="light">
+                      <img className="arrow" src={arrow}></img>
+                    </Button>
+                  }
                 </ListGroupItem>
               </div>
             )
