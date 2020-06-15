@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {
-  Button,
   Navbar,
   NavbarBrand,
   Nav,
@@ -8,19 +7,7 @@ import {
   NavLink,
 } from 'reactstrap';
 
-import SongModal from './SongModal'
-
 class AppNavBar extends Component {
-
-  state = {
-    modal: false
-  }
-
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    })
-  }
 
   render(){
     return(
@@ -38,8 +25,6 @@ class AppNavBar extends Component {
               <NavLink className="text-light" href="/search">Search</NavLink>
             </NavItem>
           </Nav>
-          <Button href='/search' onClick={this.toggle}>Search for a New Song</Button>
-          <SongModal modal={this.state.modal} toggle={this.toggle} />
         </Navbar>
       </>
     )
