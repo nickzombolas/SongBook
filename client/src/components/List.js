@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { connect } from 'react-redux'
-import { removeSong } from '../actions/songActions'
+import { removeSong, changeStatus } from '../actions/songActions'
 import arrow from '../assets/arrow-right-solid.svg'
-import { WANT_TO_LEARN, LEARNING } from '../constants'
+import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 
 class List extends Component{
 
@@ -16,6 +16,15 @@ class List extends Component{
     console.log('in component')
     console.log(id)
     this.props.removeSong(id)
+  }
+
+  onChangeStatus = (id, status) => {
+    let newStatus = ''
+    if (status === WANT_TO_LEARN)
+      newStatus = LEARNING
+    else if (status === LEARNING)
+      newStatus = LEARNED
+    this.props.changeStatus(id, newStatus)
   }
 
   render(){
@@ -38,7 +47,7 @@ class List extends Component{
                   {song.title}, {song.composer}
                   {
                     (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
-                    <Button className="float-right" color="light">
+                    <Button onClick={() => this.onChangeStatus(song._id, song.status)} className="float-right" color="light">
                       <img className="arrow" src={arrow}></img>
                     </Button>
                   }
@@ -58,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { removeSong })
+  { removeSong, changeStatus })
   (List)
