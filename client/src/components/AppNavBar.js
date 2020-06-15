@@ -34,8 +34,11 @@ class AppNavBar extends Component {
             <NavItem>
               <NavLink className="text-light" href="https://github.com/nickzombolas/SongBook">GitHub</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink className="text-light" href="/search">Search</NavLink>
+            </NavItem>
           </Nav>
-          <Button onClick={this.toggle}>Add New Song</Button>
+          <Button href='/search' onClick={this.toggle}>Search for a New Song</Button>
           <SongModal modal={this.state.modal} toggle={this.toggle} />
         </Navbar>
       </>
