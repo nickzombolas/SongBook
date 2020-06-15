@@ -62,7 +62,7 @@ export default function(state = initialState, action) {
         ...changedSong,
         status: action.payload.status
       }
-      const songs = [...currentSongs, changedSong]
+      const songs = [changedSong, ...currentSongs]
       return {
         ...state,
         songs
