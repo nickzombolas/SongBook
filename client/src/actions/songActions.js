@@ -1,4 +1,4 @@
-import { REMOVE, CHANGE_STATUS } from './types'
+import { REMOVE, CHANGE_STATUS, ADD } from './types'
 
 export const removeSong = id => {
   return {
@@ -13,6 +13,15 @@ export const changeStatus = (id, status) => {
     payload: {
       id,
       status
+    }
+  }
+}
+
+export const addToList = (song) => {
+  return {
+    type: ADD,
+    payload: {
+      song
     }
   }
 }

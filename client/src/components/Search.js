@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText, InputGroup, ListGroup, ListGroupItem } from 'reactstrap'
+import { Button, Form, Label, Input, InputGroup, ListGroup, ListGroupItem } from 'reactstrap'
+import { connect } from 'react-redux'
 
 import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
+import { addToList } from '../actions/songActions'
 
 class Search extends Component {
 
@@ -77,6 +79,14 @@ class Search extends Component {
     })
   }
 
+  add = (song, status) => {
+    const songToAdd = {
+      ...song,
+      status
+    }
+    this.props.addToList(songToAdd)
+  }
+
   render(){
     return(
       <div className="text-center search">
@@ -105,9 +115,9 @@ class Search extends Component {
                     {result.title}, {result.composer}
                   </div>
                   <div className="float-right">
-                    <Button className="mr-3">Want to Learn</Button>
-                    <Button className="mr-3">Learning</Button>
-                    <Button>Learned</Button>
+                    <Button onClick={() => this.add(result, WANT_TO_LEARN)} className="mr-3">Want to Learn</Button>
+                    <Button onClick={() => this.add(result, LEARNING)} className="mr-3">Learning</Button>
+                    <Button onClick={() => this.add(result, LEARNED)}>Learned</Button>
                   </div>
                 </ListGroupItem>
               )
@@ -119,4 +129,11 @@ class Search extends Component {
   }
 }
 
-export default Search
+const mapStateToProps = state => ({
+  song: state.song
+})
+
+export default connect(
+  mapStateToProps,
+  { addToList })
+  (Search)
