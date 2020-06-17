@@ -1,4 +1,14 @@
-import { REMOVE, CHANGE_STATUS, ADD } from './types'
+import axios from 'axios'
+import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS } from './types'
+
+export const getSongs = ids => dispatch => {
+  axios.get('/api/songs').then(res => {
+    dispatch({
+      type: GET_SONGS,
+      payload: res.data
+    })
+  })
+}
 
 export const removeSong = id => {
   return {
