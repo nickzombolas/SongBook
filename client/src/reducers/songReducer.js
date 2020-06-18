@@ -2,50 +2,7 @@ import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS } from '../actions/types'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 
 const initialState = {
-  songs: [
-    {
-      _id: 1,
-      title: 'testTitle1',
-      composer: 'TestComposer1',
-      status: WANT_TO_LEARN,
-    },
-    {
-      _id: 2,
-      title: 'testTitle2',
-      composer: 'TestComposer2',
-      status: LEARNING
-    },
-    {
-      _id: 3,
-      title: 'testTitle3',
-      composer: 'TestComposer3',
-      status: LEARNED
-    },
-    {
-      _id: 4,
-      title: 'title',
-      composer: 'composer',
-      status: WANT_TO_LEARN
-    },
-    {
-      _id: 5,
-      title: 'title',
-      composer: 'Composer',
-      status: LEARNING
-    },
-    {
-      _id: 6,
-      title: 'Title',
-      composer: 'composer',
-      status: LEARNED
-    },
-    {
-      _id: 7,
-      title: 'Title',
-      composer: 'Composer',
-      status: WANT_TO_LEARN
-    },
-  ]
+  songs: []
 }
 
 export default function(state = initialState, action) {
@@ -75,7 +32,9 @@ export default function(state = initialState, action) {
     case GET_SONGS:
       console.log(action.payload)
       return {
-        ...state
+        ...state,
+        //songs: [...state.songs, [action.payload]]
+        songs: action.payload
       }
     default:
       return state

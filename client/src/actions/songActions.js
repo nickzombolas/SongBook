@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS } from './types'
 
-export const getSongs = ids => dispatch => {
+export const getSongs = () => dispatch => {
   axios.get('/api/songs').then(res => {
     dispatch({
       type: GET_SONGS,

@@ -6,7 +6,7 @@ const Song = require('../../models/Song')
 // GET
 // Find all Songs
 router.get('/', (req, res) => {
-  Song.find({})
+  Song.find({status: {$exists: true}})
     .then(songs => res.json(songs))
 })
 
