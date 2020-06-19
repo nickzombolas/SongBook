@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { connect } from 'react-redux'
-import { removeSong, changeStatus, getSongs } from '../actions/songActions'
+import { removeSong, changeStatus } from '../actions/songActions'
 import arrow from '../assets/arrow-right-solid.svg'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 
 class List extends Component{
-
-  componentDidMount(){
-    this.props.getSongs()
-  }
 
   onClick = () => {
     console.log('Item Clicked!')
@@ -71,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { removeSong, changeStatus, getSongs })
+  { removeSong, changeStatus })
   (List)

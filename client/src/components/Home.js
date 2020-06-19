@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
+import { getSongs } from '../actions/songActions'
 import List from './List'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 
 class Home extends Component {
+
+  componentDidMount(){
+    this.props.getSongs()
+  }
+
   render(){
     return (
       <div className="App">
@@ -15,4 +22,11 @@ class Home extends Component {
   }
 }
 
-export default Home
+const mapStateToProps = state => ({
+  song: state.song
+})
+
+export default connect(
+  mapStateToProps,
+  { getSongs })
+  (Home)
