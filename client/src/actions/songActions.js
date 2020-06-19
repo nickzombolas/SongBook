@@ -10,21 +10,25 @@ export const getSongs = () => dispatch => {
   })
 }
 
-export const removeSong = id => {
-  return {
-    type: REMOVE,
-    payload: id
-  }
+export const removeSong = id => dispatch =>{
+  axios.delete(`/api/songs/${id}`).then(res => {
+    dispatch({
+      type: REMOVE,
+      payload: res.data.id
+    })
+  })
 }
 
-export const changeStatus = (id, status) => {
-  return {
-    type: CHANGE_STATUS,
-    payload: {
-      id,
-      status
-    }
-  }
+export const changeStatus = (id, status) => dispatch => {
+  axios.post(`/api/songs/${id}`, { status }).then(res => {
+    dispatch({
+      type: CHANGE_STATUS,
+      payload: {
+        id,
+        status: res.data.status
+      }
+    })
+  })
 }
 
 export const addToList = (song) => {
