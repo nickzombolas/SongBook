@@ -19,7 +19,7 @@ class List extends Component{
   }
 
   onChangeStatus = (id, status) => {
-    let newStatus = ''
+    let newStatus = undefined
     if (status === WANT_TO_LEARN)
       newStatus = LEARNING
     else if (status === LEARNING)
@@ -40,7 +40,7 @@ class List extends Component{
                   className="remove-btn left"
                   color="danger"
                   size="sm"
-                  onClick={() => this.onRemove(song._id)}
+                  onClick={() => this.onChangeStatus(song._id)}
                 >
                 &times;</Button>
                 <ListGroupItem className="right" tag="button" onClick={this.onClick}>

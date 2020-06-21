@@ -25,11 +25,20 @@ router.post('/', (req, res) => {
 
 // POST
 // Update one song
+// edit: phase 1 uses this to add/remove status as well.
+// this will be updated in phase 2
 router.post('/:id', (req, res) => {
   const { status } = req.body
-  Song.updateOne({ _id: req.params.id }, { status }).then(result => {
-    Song.findById({ _id: req.params.id }).then(song => res.json(song))
-  })
+  if(status === undefined) {
+    Song.updateOne({ _id: req.params.id }, {$unset: {status: ''}}).then(result => {
+      Song.findById({ _id: req.params.id }).then(song =>  res.json(song))
+    })
+  }
+  else{
+    Song.updateOne({ _id: req.params.id }, { status }).then(result => {
+      Song.findById({ _id: req.params.id }).then(song => res.json(song))
+    })
+  }
 })
 
 // DELETE
