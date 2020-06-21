@@ -10,6 +10,13 @@ router.get('/', (req, res) => {
     .then(songs => res.json(songs))
 })
 
+// GET
+// query for a song title
+router.get('/search/:title', (req, res) => {
+  const title = req.params.title
+  Song.find({ title }).then(songs => res.json(songs))
+})
+
 // POST
 // Create a new song
 router.post('/', (req, res) => {

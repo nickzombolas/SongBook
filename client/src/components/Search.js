@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { addToList } from '../actions/songActions'
+import axios from 'axios'
 
 class Search extends Component {
 
@@ -73,9 +74,12 @@ class Search extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    this.setState({
-      ...this.state,
-      results: this.sampleSongs
+    axios.get(`/api/songs/search/${this.state.search}`).then(res => {
+      const results = res.data
+      this.setState({
+        ...this.state,
+        results
+      })
     })
   }
 
