@@ -13,8 +13,14 @@ router.get('/', (req, res) => {
 // GET
 // query for a song title
 router.get('/search/:title', (req, res) => {
-  const title = req.params.title
-  Song.find({ title }).then(songs => res.json(songs))
+  const splitTitle = req.params.title.split(' ')
+  let title = []
+  splitTitle.forEach(word => {
+    title.push(new RegExp(word))
+  })
+  Song.find({ title: {$in: title} }).then(songs => {
+    res.json(songs)
+  })
 })
 
 // POST

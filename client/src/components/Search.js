@@ -13,7 +13,8 @@ class Search extends Component {
   state = {
     search: null,
     modal: false,
-    results: []
+    results: [],
+    searched: false
   }
 
   handleChange = e => {
@@ -34,12 +35,14 @@ class Search extends Component {
       const results = res.data
       this.setState({
         ...this.state,
-        results
+        results,
+        searched: true
       })
     })
   }
 
   render(){
+    const { results, searched } = this.state
     return(
       <div className="text-center search">
         <h1>Search for a Song</h1>
@@ -51,7 +54,7 @@ class Search extends Component {
           </InputGroup>
         </Form>
         {
-          this.state.results.length > 0 &&
+          searched === true &&
           <div className="search">
             <p>If you cannot find the song you are looking for, you can add a new song here!</p>
             <Button onClick={this.toggle}>Add a New Song</Button>
@@ -60,9 +63,10 @@ class Search extends Component {
         }
         <ListGroup>
           {
+            searched === true && results.length > 0 &&
             this.state.results.map(result => {
               return (
-                <ListGroupItem className="container">
+                <ListGroupItem key={result._id} className="container">
                   <div className="float-left mt-2">
                     {result.title}, {result.composer}
                   </div>
@@ -74,6 +78,10 @@ class Search extends Component {
                 </ListGroupItem>
               )
             })
+          }
+          {
+            searched === true && results.length === 0 &&
+            <h1 className="text-center">No Results Found</h1>
           }
         </ListGroup>
       </div>
