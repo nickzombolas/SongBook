@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS } from './types'
+import { REMOVE, CHANGE_STATUS, GET_SONGS } from './types'
 
 export const getSongs = () => dispatch => {
   axios.get('/api/songs').then(res => {
@@ -29,13 +29,4 @@ export const changeStatus = (id, status) => dispatch => {
       }
     })
   })
-}
-
-export const addToList = (song) => {
-  return {
-    type: ADD,
-    payload: {
-      song
-    }
-  }
 }

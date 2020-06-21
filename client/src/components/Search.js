@@ -1,58 +1,14 @@
 import React, { Component } from 'react'
 import { Button, Form, Label, Input, InputGroup, ListGroup, ListGroupItem } from 'reactstrap'
 import { connect } from 'react-redux'
+import axios from 'axios'
 
 import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
-import { addToList } from '../actions/songActions'
-import axios from 'axios'
+import { changeStatus } from '../actions/songActions'
+
 
 class Search extends Component {
-
-  sampleSongs = [
-    {
-      _id: 1,
-      title: 'testTitle1',
-      composer: 'TestComposer1',
-      status: WANT_TO_LEARN,
-    },
-    {
-      _id: 2,
-      title: 'testTitle2',
-      composer: 'TestComposer2',
-      status: LEARNING
-    },
-    {
-      _id: 3,
-      title: 'testTitle3',
-      composer: 'TestComposer3',
-      status: LEARNED
-    },
-    {
-      _id: 4,
-      title: 'title',
-      composer: 'composer',
-      status: WANT_TO_LEARN
-    },
-    {
-      _id: 5,
-      title: 'title',
-      composer: 'Composer',
-      status: LEARNING
-    },
-    {
-      _id: 6,
-      title: 'Title',
-      composer: 'composer',
-      status: LEARNED
-    },
-    {
-      _id: 7,
-      title: 'Title',
-      composer: 'Composer',
-      status: WANT_TO_LEARN
-    },
-  ]
 
   state = {
     search: null,
@@ -83,14 +39,6 @@ class Search extends Component {
     })
   }
 
-  add = (song, status) => {
-    const songToAdd = {
-      ...song,
-      status
-    }
-    this.props.addToList(songToAdd)
-  }
-
   render(){
     return(
       <div className="text-center search">
@@ -119,9 +67,9 @@ class Search extends Component {
                     {result.title}, {result.composer}
                   </div>
                   <div className="float-right">
-                    <Button onClick={() => this.add(result, WANT_TO_LEARN)} className="mr-3">Want to Learn</Button>
-                    <Button onClick={() => this.add(result, LEARNING)} className="mr-3">Learning</Button>
-                    <Button onClick={() => this.add(result, LEARNED)}>Learned</Button>
+                    <Button onClick={() => this.props.changeStatus(result._id, WANT_TO_LEARN)} className="mr-3">Want to Learn</Button>
+                    <Button onClick={() => this.props.changeStatus(result._id, LEARNING)} className="mr-3">Learning</Button>
+                    <Button onClick={() => this.props.changeStatus(result._id, LEARNED)}>Learned</Button>
                   </div>
                 </ListGroupItem>
               )
@@ -139,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addToList })
+  { changeStatus })
   (Search)
