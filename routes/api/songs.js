@@ -16,6 +16,7 @@ router.get('/search/:title', (req, res) => {
   const splitTitle = req.params.title.split(' ')
   let title = []
   splitTitle.forEach(word => {
+    word = word.charAt(0).toUpperCase() + word.slice(1);
     title.push(new RegExp(word))
   })
   Song.find({ title: {$in: title} }).then(songs => {
@@ -26,7 +27,10 @@ router.get('/search/:title', (req, res) => {
 // POST
 // Create a new song
 router.post('/', (req, res) => {
-  const { title, composer, arranger, status } = req.body.song
+  let { title, composer, arranger, status } = req.body.song
+  title = title.charAt(0).toUpperCase() + title.slice(1)
+  composer = composer.charAt(0).toUpperCase() + composer.slice(1)
+  arranger = arranger.charAt(0).toUpperCase() + arranger.slice(1)
   Song.create({
     title,
     composer,

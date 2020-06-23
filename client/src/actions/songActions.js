@@ -32,8 +32,6 @@ export const changeStatus = (id, status) => dispatch => {
 }
 
 export const addNewSong = song => dispatch => {
-  console.log('in actionnnnnnnnnnnnnn')
-  console.log(song)
   axios.post('/api/songs', { song }).then(res => {
     dispatch({
       type: ADD_NEW_SONG,
