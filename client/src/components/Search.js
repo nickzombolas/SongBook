@@ -6,6 +6,7 @@ import axios from 'axios'
 import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { changeStatus } from '../actions/songActions'
+import { toggleError, setMessage } from '../actions/uiActions'
 
 
 class Search extends Component {
@@ -15,8 +16,6 @@ class Search extends Component {
     modal: false,
     results: [],
     searched: false,
-    error: false,
-    message: null
   }
 
   handleChange = e => {
@@ -33,11 +32,8 @@ class Search extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    if(this.state.search === '' || this.state.search === null)
-      this.setState({
-        ...this.state,
-        error: true
-      })
+    if((this.state.search === '' || this.state.search === null) && !this.props.ui.error)
+      this.props.toggleError()
     else{
       axios.get(`/api/songs/search/${this.state.search}`).then(res => {
         const results = res.data
@@ -47,16 +43,15 @@ class Search extends Component {
           searched: true,
           error: false
         })
+        if(this.props.ui.error)
+          this.props.toggleError()
       })
     }
   }
 
   addToList = (id, status, title) => {
     this.props.changeStatus(id, status)
-    this.setState({
-      ...this.state,
-      message: `'${title}' has been added to '${status}' list!`
-    })
+    this.props.setMessage(title, status)
   }
   
   render(){
@@ -71,7 +66,7 @@ class Search extends Component {
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
           {
-            this.state.error === true &&
+            this.props.ui.error &&
             <Alert className="text-left" color="danger">Please enter a song title before searching.</Alert>
           }
         </Form>
@@ -84,8 +79,8 @@ class Search extends Component {
           </div>
         }
         {
-          this.state.message !== null &&
-          <Alert color="success">{this.state.message}</Alert>
+          this.props.ui.message !== null &&
+          <Alert color="success">{this.props.ui.message}</Alert>
         }
         <ListGroup>
           {
@@ -116,10 +111,11 @@ class Search extends Component {
 }
 
 const mapStateToProps = state => ({
-  song: state.song
+  song: state.song,
+  ui: state.ui
 })
 
 export default connect(
   mapStateToProps,
-  { changeStatus })
+  { changeStatus, toggleError, setMessage })
   (Search)

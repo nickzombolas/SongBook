@@ -1,4 +1,4 @@
-import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS, ADD_NEW_SONG } from '../actions/types'
+import { REMOVE, CHANGE_STATUS, GET_SONGS, ADD_NEW_SONG } from '../actions/types'
 
 const initialState = {
   songs: []

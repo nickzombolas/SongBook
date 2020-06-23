@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import { Button,
   Modal,
   ModalHeader,
@@ -11,8 +11,9 @@ import Input from 'reactstrap/lib/Input'
 import { connect } from 'react-redux'
 
 
-import { WANT_TO_LEARN, LEARNING, LEARNED} from '../constants'
+import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { addNewSong } from '../actions/songActions'
+import { setMessage } from '../actions/uiActions'
 
 class SongModal extends Component {
 
@@ -41,6 +42,7 @@ class SongModal extends Component {
     }
     this.props.addNewSong(newSong)
     this.props.toggle()
+    this.props.setMessage(title, status)
   }
 
   render(){
@@ -108,10 +110,11 @@ class SongModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  song: state.song
+  song: state.song,
+  ui: state.ui
 })
 
 export default connect(
   mapStateToProps,
-  { addNewSong })
+  { addNewSong, setMessage })
   (SongModal)
