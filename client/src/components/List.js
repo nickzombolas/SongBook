@@ -43,15 +43,15 @@ class List extends Component{
                   onClick={() => this.onChangeStatus(song._id)}
                 >
                 &times;</Button>
-                <ListGroupItem className="right" tag="button" onClick={this.onClick}>
+                <ListGroupItem className="right text-center" onClick={this.onClick}>
                   {song.title}, {song.composer}
-                  {
-                    (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
-                    <Button onClick={() => this.onChangeStatus(song._id, song.status)} className="float-right" color="light">
-                      <img className="arrow" src={arrow}></img>
-                    </Button>
-                  }
                 </ListGroupItem>
+                {
+                  (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
+                  <Button onClick={() => this.onChangeStatus(song._id, song.status)} className="float-right" color="light">
+                    <img className="arrow" src={arrow}></img>
+                  </Button>
+                  }
               </div>
             )
           })}
