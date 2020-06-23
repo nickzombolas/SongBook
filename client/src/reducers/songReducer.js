@@ -1,4 +1,4 @@
-import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS } from '../actions/types'
+import { REMOVE, CHANGE_STATUS, ADD, GET_SONGS, ADD_NEW_SONG } from '../actions/types'
 
 const initialState = {
   songs: []
@@ -24,10 +24,14 @@ export default function(state = initialState, action) {
         songs
       }
     case GET_SONGS:
-      console.log(action.payload)
       return {
         ...state,
         songs: action.payload
+      }
+    case ADD_NEW_SONG:
+      return {
+        ...state,
+        songs: [action.payload.song, ...state.songs]
       }
     default:
       return state

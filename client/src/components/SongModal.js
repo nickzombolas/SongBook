@@ -8,7 +8,11 @@ import { Button,
   Label
  } from 'reactstrap'
 import Input from 'reactstrap/lib/Input'
+import { connect } from 'react-redux'
 
+
+import { WANT_TO_LEARN, LEARNING, LEARNED} from '../constants'
+import { addNewSong } from '../actions/songActions'
 
 class SongModal extends Component {
 
@@ -17,6 +21,7 @@ class SongModal extends Component {
     title: '',
     composer: '',
     arranger: '',
+    status: ''
   }
 
   handleChange = e => {
@@ -27,7 +32,14 @@ class SongModal extends Component {
 
   handleOnSubmit = (e) => {
     e.preventDefault()
-    console.log(this.state)
+    const { title, composer, arranger, status } = this.state
+    const newSong = {
+      title,
+      composer,
+      arranger,
+      status
+    }
+    this.props.addNewSong(newSong)
     this.props.toggle()
   }
 
@@ -68,19 +80,19 @@ class SongModal extends Component {
               <FormGroup tag="fieldset">
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="status" />{' '}
+                    <Input onClick={this.handleChange} type="radio" name="status" value={WANT_TO_LEARN} />
                     Want to Learn
                   </Label>
                 </FormGroup>
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="status" />{' '}
+                    <Input onClick={this.handleChange} type="radio" name="status" value={LEARNING} />
                     Learning
                   </Label>
                 </FormGroup>
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="status" />{' '}
+                    <Input onClick={this.handleChange} type="radio" name="status" value={LEARNED} />
                     Learned
                   </Label>
                 </FormGroup>
@@ -95,4 +107,11 @@ class SongModal extends Component {
   }
 }
 
-export default SongModal
+const mapStateToProps = state => ({
+  song: state.song
+})
+
+export default connect(
+  mapStateToProps,
+  { addNewSong })
+  (SongModal)

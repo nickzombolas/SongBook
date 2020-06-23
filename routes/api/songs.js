@@ -26,11 +26,12 @@ router.get('/search/:title', (req, res) => {
 // POST
 // Create a new song
 router.post('/', (req, res) => {
-  const { title, composer, arranger } = req.body
+  const { title, composer, arranger, status } = req.body.song
   Song.create({
     title,
     composer,
-    arranger
+    arranger,
+    status
   }).then(song => {
     res.json(song)
   })

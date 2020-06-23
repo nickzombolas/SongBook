@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { REMOVE, CHANGE_STATUS, GET_SONGS } from './types'
+import { REMOVE, CHANGE_STATUS, GET_SONGS, ADD_NEW_SONG } from './types'
 
 export const getSongs = () => dispatch => {
   axios.get('/api/songs').then(res => {
@@ -27,6 +27,17 @@ export const changeStatus = (id, status) => dispatch => {
         id,
         status: res.data.status
       }
+    })
+  })
+}
+
+export const addNewSong = song => dispatch => {
+  console.log('in actionnnnnnnnnnnnnn')
+  console.log(song)
+  axios.post('/api/songs', { song }).then(res => {
+    dispatch({
+      type: ADD_NEW_SONG,
+      payload: song
     })
   })
 }
