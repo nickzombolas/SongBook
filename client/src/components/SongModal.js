@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { addNewSong } from '../actions/songActions'
-import { setMessage } from '../actions/uiActions'
+import { displayMessage } from '../actions/uiActions'
 
 class SongModal extends Component {
 
@@ -42,7 +42,7 @@ class SongModal extends Component {
     }
     this.props.addNewSong(newSong)
     this.props.toggle()
-    this.props.setMessage(title, status)
+    this.props.displayMessage(title, status)
   }
 
   render(){
@@ -116,5 +116,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addNewSong, setMessage })
+  { addNewSong, displayMessage })
   (SongModal)

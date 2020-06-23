@@ -6,7 +6,7 @@ import axios from 'axios'
 import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { changeStatus } from '../actions/songActions'
-import { toggleError, setMessage } from '../actions/uiActions'
+import { toggleError, displayMessage } from '../actions/uiActions'
 
 
 class Search extends Component {
@@ -51,7 +51,7 @@ class Search extends Component {
 
   addToList = (id, status, title) => {
     this.props.changeStatus(id, status)
-    this.props.setMessage(title, status)
+    this.props.displayMessage(title, status)
   }
   
   render(){
@@ -117,5 +117,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { changeStatus, toggleError, setMessage })
+  { changeStatus, toggleError, displayMessage })
   (Search)

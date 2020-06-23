@@ -1,4 +1,4 @@
-import { TOGGLE_ERROR, SET_MESSAGE } from '../actions/types'
+import { TOGGLE_ERROR, SET_MESSAGE, CLEAR_MESSAGE } from '../actions/types'
 
 const initialState = {
   error: false,
@@ -16,6 +16,11 @@ export default function(state = initialState, action){
       return {
         ...state,
         message: action.payload.message
+      }
+    case CLEAR_MESSAGE:
+      return {
+        ...state,
+        message: null
       }
     default:
       return {
