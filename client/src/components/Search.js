@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Label, Input, InputGroup, ListGroup, ListGroupItem } from 'reactstrap'
+import { Button, Form, Label, Input, InputGroup, ListGroup, ListGroupItem, Alert } from 'reactstrap'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -14,7 +14,9 @@ class Search extends Component {
     search: null,
     modal: false,
     results: [],
-    searched: false
+    searched: false,
+    error: false,
+    message: null
   }
 
   handleChange = e => {
@@ -31,16 +33,32 @@ class Search extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    axios.get(`/api/songs/search/${this.state.search}`).then(res => {
-      const results = res.data
+    if(this.state.search === '' || this.state.search === null)
       this.setState({
         ...this.state,
-        results,
-        searched: true
+        error: true
       })
-    })
+    else{
+      axios.get(`/api/songs/search/${this.state.search}`).then(res => {
+        const results = res.data
+        this.setState({
+          ...this.state,
+          results,
+          searched: true,
+          error: false
+        })
+      })
+    }
   }
 
+  addToList = (id, status, title) => {
+    this.props.changeStatus(id, status)
+    this.setState({
+      ...this.state,
+      message: `'${title}' has been added to '${status}' list!`
+    })
+  }
+  
   render(){
     const { results, searched } = this.state
     return(
@@ -52,6 +70,10 @@ class Search extends Component {
             <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title" />
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
+          {
+            this.state.error === true &&
+            <Alert className="text-left" color="danger">Please enter a song title before searching.</Alert>
+          }
         </Form>
         {
           searched === true &&
@@ -60,6 +82,10 @@ class Search extends Component {
             <Button onClick={this.toggle}>Add a New Song</Button>
             <SongModal modal={this.state.modal} toggle={this.toggle} />
           </div>
+        }
+        {
+          this.state.message !== null &&
+          <Alert color="success">{this.state.message}</Alert>
         }
         <ListGroup>
           {
@@ -71,9 +97,9 @@ class Search extends Component {
                     {result.title}, {result.composer}
                   </div>
                   <div className="float-right">
-                    <Button onClick={() => this.props.changeStatus(result._id, WANT_TO_LEARN)} className="mr-3">Want to Learn</Button>
-                    <Button onClick={() => this.props.changeStatus(result._id, LEARNING)} className="mr-3">Learning</Button>
-                    <Button onClick={() => this.props.changeStatus(result._id, LEARNED)}>Learned</Button>
+                    <Button onClick={() => this.addToList(result._id, WANT_TO_LEARN, result.title)} className="mr-3">Want to Learn</Button>
+                    <Button onClick={() => this.addToList(result._id, LEARNING, result.title)} className="mr-3">Learning</Button>
+                    <Button onClick={() => this.addToList(result._id, LEARNED, result.title)}>Learned</Button>
                   </div>
                 </ListGroupItem>
               )
