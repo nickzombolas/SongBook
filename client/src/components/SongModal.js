@@ -33,12 +33,25 @@ class SongModal extends Component {
 
   handleOnSubmit = (e) => {
     e.preventDefault()
-    const { title, composer, arranger, status } = this.state
-    const newSong = {
-      title,
-      composer,
-      arranger,
-      status
+    let { title, composer, arranger, status } = this.state
+    let newSong = {}
+
+    title = title.charAt(0).toUpperCase() + title.slice(1)
+    composer = composer.charAt(0).toUpperCase() + composer.slice(1)
+    if((arranger === null) || arranger == '')
+      newSong = {
+        title,
+        composer,
+        status
+      }
+    else {
+      arranger = arranger.charAt(0).toUpperCase() + arranger.slice(1)
+      newSong = {
+        title,
+        composer,
+        arranger,
+        status
+      }
     }
     this.props.addNewSong(newSong)
     this.props.toggle()
