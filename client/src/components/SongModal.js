@@ -19,10 +19,10 @@ class SongModal extends Component {
 
   state = {
     modal: this.props.modal,
-    title: '',
-    composer: '',
-    arranger: '',
-    status: ''
+    title: null,
+    composer: null,
+    arranger: null,
+    status: null
   }
 
   handleChange = e => {
@@ -54,23 +54,25 @@ class SongModal extends Component {
           <ModalBody>
             <Form onSubmit={this.handleOnSubmit}>
               <FormGroup>
-                <Label for="title">Title</Label>
+                <Label for="title"><strong>Title</strong> (required)</Label>
                 <Input
                   type="text"
                   name="title"
                   id="song"
                   placeholder="Add Title..."
                   onChange={this.handleChange}
+                  required
                 />
-                <Label for="composer">Composer</Label>
+                <Label for="composer"><strong>Composer</strong> (required)</Label>
                 <Input
                   type="text"
                   name="composer"
                   id="song"
                   placeholder="Add Composer..."
                   onChange={this.handleChange}
+                  required
                 />
-                <Label for="arranger">Arranger</Label>
+                <Label for="arranger"><strong>Arranger</strong></Label>
                 <Input
                   type="text"
                   name="arranger"
@@ -79,10 +81,13 @@ class SongModal extends Component {
                   onChange={this.handleChange}
                 />
               </FormGroup>
-              <FormGroup tag="fieldset">
+              <FormGroup>
+                <div>
+                  <strong>Status</strong> (required)
+                </div>
                 <FormGroup check>
                   <Label check>
-                    <Input onClick={this.handleChange} type="radio" name="status" value={WANT_TO_LEARN} />
+                    <Input required onClick={this.handleChange} type="radio" name="status" value={WANT_TO_LEARN} />
                     Want to Learn
                   </Label>
                 </FormGroup>
