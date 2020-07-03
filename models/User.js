@@ -3,19 +3,23 @@ const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
   email: {
-    required,
-    unique,
+    required: true,
+    unique: true,
     type: String
   },
   password: {
-    required,
+    required: true,
     type: String
   },
   songs:{
     type: [
       {
-      _id: String,
-      status: String
+        _id: String,
+        status: String,
+        date: {
+          type: Date,
+          default: Date.now 
+        }
       }
     ],
     default: []
@@ -23,4 +27,4 @@ const UserSchema = new Schema({
 
 })
 
-module.exports = Song = mongoose.model('user', UserSchema)
+module.exports = User = mongoose.model('user', UserSchema)
