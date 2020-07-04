@@ -1,3 +1,4 @@
 {
-	"mongoURL": "mongodb+srv://nick:nicksafepassword@cluster0-0naxo.mongodb.net/test?retryWrites=true&w=majority"
+	"mongoURL": "mongodb+srv://nick:nicksafepassword@cluster0-0naxo.mongodb.net/test?retryWrites=true&w=majority",
+	"jwtSecret": "myJwtSecret"
 }

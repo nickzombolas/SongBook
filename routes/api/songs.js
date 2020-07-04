@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../../middleware/auth')
 
 const Song = require('../../models/Song')
 
@@ -26,10 +27,13 @@ router.get('/search/:title', (req, res) => {
 
 // POST
 // Create a new song
-router.post('/', (req, res) => {
+// Access: Protected
+router.post('/', auth, (req, res) => {
   Song.create(req.body.song).then((song, err) => {
     console.log(song)
     res.json(song)
+  }).catch(err => {
+    console.log(err)
   })
 })
 
