@@ -11,6 +11,7 @@ import About from './components/About'
 import Search from './components/Search'
 import store from './store'
 import { loadUser } from './actions/authActions'
+import LoginRegister from './components/LoginRegister';
 
 class App extends Component {
   
@@ -27,6 +28,7 @@ class App extends Component {
               <Route exact path='/about' component={About} />
               <Route exact path='/' component={Home} />
               <Route exact path='/search' component={Search} />
+              <Route exact path='/LoginRegister' component={LoginRegister} />
               <Footer />
             </BrowserRouter>
         </Provider>

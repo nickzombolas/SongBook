@@ -11,19 +11,21 @@ const User = require('../../models/User')
 // Register a new user
 // Access: Public
 router.post('/', (req, res) => {
-  const { email, password } = req.body
+  const { name, email, password } = req.body
 
-  if(!email || !password)
-    return res.status(400).json({ message: 'Enter email and password'})
+  if(!name || !email || !password)
+    return res.status(400).json({ message: 'Enter all fields'})
 
   User.findOne({ email }).then(user => {
-    if(user) 
+    if(user)
       res.status(400).json({ message: 'A user already exists with this email' })
-    
+
     const newUser = new User({
+      name,
       email,
       password
     })
+    console.log(newUser)
 
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {

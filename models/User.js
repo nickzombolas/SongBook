@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
+  name: {
+    required: true,
+    type: String
+  },
   email: {
     required: true,
     unique: true,
