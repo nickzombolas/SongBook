@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { createAccount } from '../actions/authActions'
+import { toggleError } from '../actions/uiActions'
 
 class LoginRegister extends Component {
 
@@ -18,7 +19,6 @@ class LoginRegister extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-    console.log(this.state)
   }
 
   login = () => {
@@ -33,53 +33,57 @@ class LoginRegister extends Component {
       email: createEmail,
       password: createPassword
     }
-    console.log('new user')
-    console.log(newUser)
     this.props.createAccount(newUser)
   }
 
   render() {
     return (
-      <div className="container mt-5">
-        <div className="left mb-4 pr-5">
-          <h1 className="text-center mb-4">Login</h1>
-            <Form>
+        <div className="container mt-5">
+          <div className="left mb-4 pr-5">
+            <h1 className="text-center mb-4">Login</h1>
+              <Form>
+                <FormGroup>
+                  <Label for="loginEmail">Email</Label>
+                  <Input type="email" name="loginEmail" onChange={this.onChange} placeholder="example@example.com" />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="password" type="password">Password</Label>
+                  <Input type="password" name="loginPassword" onChange={this.onChange} placeholder="Password" />
+                </FormGroup>
+                <Button onClick={this.login}>Login</Button>
+              </Form>
+          </div>
+          <div className="right">
+            <h1 className="text-center mb-4">Create Account</h1>
+            <Form classname="mb-5">
               <FormGroup>
-                <Label for="loginEmail">Email</Label>
-                <Input type="email" name="loginEmail" onChange={this.onChange} placeholder="example@example.com" />
+                <Label for="name">Name</Label>
+                <Input name="name" onChange={this.onChange} />
+              </FormGroup>
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input type="email" name="createEmail" onChange={this.onChange} placeholder="example@example.com" />
               </FormGroup>
               <FormGroup>
                 <Label for="password" type="password">Password</Label>
-                <Input type="password" name="loginPassword" onChange={this.onChange} placeholder="Password" />
+                <Input type="password" name="createPassword" onChange={this.onChange} placeholder="Password" />
               </FormGroup>
-              <Button onClick={this.login}>Login</Button>
+              <Button className="mb-3" onClick={this.createAccount}>Create Account</Button>
+              { this.props.ui.error && 
+                (
+                  <Alert color="danger">{this.props.ui.errorMessage}</Alert>
+                )
+              }
             </Form>
+          </div>
         </div>
-        <div className="right">
-          <h1 className="text-center mb-4">Create Account</h1>
-          <Form>
-            <FormGroup>
-              <Label for="name">Name</Label>
-              <Input name="name" onChange={this.onChange} />
-            </FormGroup>
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input type="email" name="createEmail" onChange={this.onChange} placeholder="example@example.com" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="password" type="password">Password</Label>
-              <Input type="password" name="createPassword" onChange={this.onChange} placeholder="Password" />
-            </FormGroup>
-            <Button onClick={this.createAccount}>Create Account</Button>
-          </Form>
-        </div>
-      </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  ui: state.ui
 })
 
 export default connect(

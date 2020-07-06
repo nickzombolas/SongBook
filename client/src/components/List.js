@@ -37,7 +37,7 @@ class List extends Component{
             return(
               <div key={song._id} className="container">
                 <Button
-                  className="remove-btn left"
+                  className="remove-btn float-left"
                   color="danger"
                   size="sm"
                   onClick={() => this.onChangeStatus(song._id)}

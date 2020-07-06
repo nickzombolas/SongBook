@@ -5,17 +5,22 @@ import {
   USER_LOADED,
   REGISTER_SUCCESS
 } from './types'
+import { toggleError } from './uiActions'
 
 // Create Account
-export const createAccount = (user) => dispatch => {
+export const createAccount = (user) => (dispatch, getState) => {
   axios.post('api/users', user).then(res => {
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     })
   }).catch(err => {
-    console.log('Register error')
-    console.log(err)
+    console.log('ERROR: ' + err.response.data.message)
+    if(!getState().ui.error)
+      dispatch(toggleError(err.response.data.message))
+      setTimeout(() => dispatch(toggleError()),
+      3000
+    )
   })
 }
 
@@ -29,8 +34,8 @@ export const loadUser = () => (dispatch, getState) => {
       payload: res.data
     })
   }).catch(err => {
-    console.log('AUTH ERROR from auth actions')
-    console.log(err)
+    dispatch(toggleError(err.response.data.message))
+    console.log('ERROR: ' + err.response.data.message)
   })
 }
 
