@@ -3,9 +3,16 @@ import axios from 'axios'
 import {
   USER_LOADING,
   USER_LOADED,
-  REGISTER_SUCCESS
+  REGISTER_SUCCESS,
+  LOGOUT_SUCCESS
 } from './types'
 import { toggleError } from './uiActions'
+
+export const logout = () => {
+  return {
+    type: LOGOUT_SUCCESS
+  }
+}
 
 // Create Account
 export const createAccount = (user) => (dispatch, getState) => {

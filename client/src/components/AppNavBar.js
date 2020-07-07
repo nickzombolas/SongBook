@@ -5,7 +5,11 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Button
 } from 'reactstrap';
+import { connect } from 'react-redux';
+
+import { logout } from '../actions/authActions'
 
 class AppNavBar extends Component {
 
@@ -25,10 +29,20 @@ class AppNavBar extends Component {
               <NavLink className="text-light" href="/search">Search</NavLink>
             </NavItem>
           </Nav>
+          { this.props.auth.isAuthenticated && 
+            ( <Button onClick={this.props.logout}>Logout</Button> )
+          }
         </Navbar>
       </>
     )
   }
 }
 
-export default AppNavBar
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(AppNavBar)
