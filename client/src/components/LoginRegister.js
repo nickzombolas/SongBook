@@ -3,7 +3,6 @@ import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { createAccount } from '../actions/authActions'
-import { toggleError } from '../actions/uiActions'
 
 class LoginRegister extends Component {
 

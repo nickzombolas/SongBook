@@ -38,7 +38,7 @@ class SongModal extends Component {
 
     title = title.charAt(0).toUpperCase() + title.slice(1)
     composer = composer.charAt(0).toUpperCase() + composer.slice(1)
-    if((arranger === null) || arranger == '')
+    if((arranger === null) || arranger === '')
       newSong = {
         title,
         composer,
