@@ -4,14 +4,34 @@ import {
   USER_LOADING,
   USER_LOADED,
   REGISTER_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  LOGIN_SUCCESS
 } from './types'
 import { toggleError } from './uiActions'
 
+// User Logout
 export const logout = () => {
   return {
     type: LOGOUT_SUCCESS
   }
+}
+
+// User Login
+export const login = (email, password) => (dispatch, getState) => {
+  const user = { email, password }
+  axios.post('api/auth', user).then(res => {
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data
+    })
+  }).catch(err => {
+    console.log('ERROR: ' + err.response.data.message)
+    if(!getState().ui.error)
+      dispatch(toggleError(err.response.data.message))
+      setTimeout(() => dispatch(toggleError()),
+      3000
+    )
+  })
 }
 
 // Create Account

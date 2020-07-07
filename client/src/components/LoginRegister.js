@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap'
 import { connect } from 'react-redux'
 
-import { createAccount } from '../actions/authActions'
+import { createAccount, login } from '../actions/authActions'
 
 class LoginRegister extends Component {
 
@@ -18,10 +18,6 @@ class LoginRegister extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
-
-  login = () => {
-    //login button
   }
 
   createAccount = e => {
@@ -49,12 +45,12 @@ class LoginRegister extends Component {
                   <Label for="password" type="password">Password</Label>
                   <Input type="password" name="loginPassword" onChange={this.onChange} placeholder="Password" />
                 </FormGroup>
-                <Button onClick={this.login}>Login</Button>
+                <Button onClick={() => this.props.login(this.state.loginEmail, this.state.loginPassword)}>Login</Button>
               </Form>
           </div>
           <div className="right">
             <h1 className="text-center mb-4">Create Account</h1>
-            <Form classname="mb-5">
+            <Form className="mb-5">
               <FormGroup>
                 <Label for="name">Name</Label>
                 <Input name="name" onChange={this.onChange} />
@@ -87,5 +83,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createAccount })
+  { createAccount, login })
   (LoginRegister)
