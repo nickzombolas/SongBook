@@ -29,8 +29,19 @@ class AppNavBar extends Component {
               <NavLink className="text-light" href="/search">Search</NavLink>
             </NavItem>
           </Nav>
-          { this.props.auth.isAuthenticated && 
-            ( <Button onClick={this.props.logout}>Logout</Button> )
+          { this.props.auth.isAuthenticated &&
+            (
+              <NavLink>
+                <Button onClick={this.props.logout}>Logout</Button>
+              </NavLink>
+            )
+          }
+          { !this.props.auth.isAuthenticated &&
+            (
+              <NavLink className="text-light" href="/LoginRegister">
+                <Button>Login or Create Account</Button>
+              </NavLink>
+            )
           }
         </Navbar>
       </>
