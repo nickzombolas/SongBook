@@ -5,7 +5,8 @@ import {
   USER_LOADED,
   REGISTER_SUCCESS,
   LOGOUT_SUCCESS,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  AUTH_ERROR
 } from './types'
 import { toggleError } from './uiActions'
 
@@ -61,6 +62,7 @@ export const loadUser = () => (dispatch, getState) => {
       payload: res.data
     })
   }).catch(err => {
+    dispatch({ type: AUTH_ERROR })
     console.log('ERROR: ' + err.response.data.message)
   })
 }
