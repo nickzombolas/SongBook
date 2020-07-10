@@ -61,7 +61,6 @@ export const loadUser = () => (dispatch, getState) => {
       payload: res.data
     })
   }).catch(err => {
-    dispatch(toggleError(err.response.data.message))
     console.log('ERROR: ' + err.response.data.message)
   })
 }
