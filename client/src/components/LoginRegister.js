@@ -33,20 +33,21 @@ class LoginRegister extends Component {
 
   render() {
     return (
+      <>
         <div className="container mt-5">
           <div className="left mb-4 pr-5">
             <h1 className="text-center mb-4">Login</h1>
-              <Form>
-                <FormGroup>
-                  <Label for="loginEmail">Email</Label>
-                  <Input type="email" name="loginEmail" onChange={this.onChange} placeholder="example@example.com" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="password" type="password">Password</Label>
-                  <Input type="password" name="loginPassword" onChange={this.onChange} placeholder="Password" />
-                </FormGroup>
-                <Button onClick={() => this.props.login(this.state.loginEmail, this.state.loginPassword)}>Login</Button>
-              </Form>
+            <Form>
+              <FormGroup>
+                <Label for="loginEmail">Email</Label>
+                <Input type="email" name="loginEmail" onChange={this.onChange} placeholder="example@example.com" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="password" type="password">Password</Label>
+                <Input type="password" name="loginPassword" onChange={this.onChange} placeholder="Password" />
+              </FormGroup>
+              <Button onClick={() => this.props.login(this.state.loginEmail, this.state.loginPassword)}>Login</Button>
+            </Form>
           </div>
           <div className="right">
             <h1 className="text-center mb-4">Create Account</h1>
@@ -64,14 +65,15 @@ class LoginRegister extends Component {
                 <Input type="password" name="createPassword" onChange={this.onChange} placeholder="Password" />
               </FormGroup>
               <Button className="mb-3" onClick={this.createAccount}>Create Account</Button>
-              { this.props.ui.error && 
-                (
-                  <Alert color="danger">{this.props.ui.errorMessage}</Alert>
-                )
-              }
             </Form>
           </div>
         </div>
+        {this.props.ui.error &&
+          (
+            <Alert className="mx-5" color="danger">{this.props.ui.errorMessage}</Alert>
+          )
+        }
+      </>
     )
   }
 }
