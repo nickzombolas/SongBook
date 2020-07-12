@@ -7,10 +7,6 @@ import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 
 class Home extends Component {
 
-  componentDidMount(){
-    this.props.getSongs()
-  }
-
   render(){
     return (
       <div className="App">
@@ -23,7 +19,8 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  song: state.song
+  song: state.song,
+  auth: state.auth
 })
 
 export default connect(

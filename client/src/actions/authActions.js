@@ -27,9 +27,9 @@ export const login = (email, password) => (dispatch, getState) => {
     })
   }).catch(err => {
     console.log('ERROR: ' + err.response.data.message)
-    if(!getState().ui.error)
+    if (!getState().ui.error)
       dispatch(toggleError(err.response.data.message))
-      setTimeout(() => dispatch(toggleError()),
+    setTimeout(() => dispatch(toggleError()),
       3000
     )
   })
@@ -44,9 +44,9 @@ export const createAccount = (user) => (dispatch, getState) => {
     })
   }).catch(err => {
     console.log('ERROR: ' + err.response.data.message)
-    if(!getState().ui.error)
+    if (!getState().ui.error)
       dispatch(toggleError(err.response.data.message))
-      setTimeout(() => dispatch(toggleError()),
+    setTimeout(() => dispatch(toggleError()),
       3000
     )
   })
@@ -55,15 +55,19 @@ export const createAccount = (user) => (dispatch, getState) => {
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING })
 
-  // If logged in get user info from db
-  axios.get('/api/auth/user', tokenConfig(getState)).then(res => {
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
+  return new Promise((resolve, reject) => {
+    // If logged in get user info from db
+    axios.get('/api/auth/user', tokenConfig(getState)).then(res => {
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      })
+      resolve('okay')
+    }).catch(err => {
+      dispatch({ type: AUTH_ERROR })
+      console.log('ERROR: ' + err.response.data.message)
+      reject('less okay')
     })
-  }).catch(err => {
-    dispatch({ type: AUTH_ERROR })
-    console.log('ERROR: ' + err.response.data.message)
   })
 }
 
@@ -75,7 +79,7 @@ export const tokenConfig = getState => {
       "Content-type": "application/json"
     }
   }
-  if(token) 
+  if (token)
     config.headers['x-auth-token'] = token
   return config
 }

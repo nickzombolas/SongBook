@@ -50,7 +50,7 @@ class Search extends Component {
   }
 
   addToList = (id, status, title) => {
-    this.props.changeStatus(id, status)
+    this.props.changeStatus(id, this.props.auth.user._id, status)
     this.props.displayMessage(title, status)
   }
   
@@ -112,7 +112,8 @@ class Search extends Component {
 
 const mapStateToProps = state => ({
   song: state.song,
-  ui: state.ui
+  ui: state.ui,
+  auth: state.auth
 })
 
 export default connect(

@@ -6,7 +6,10 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  REMOVE_USER_SONG,
+  CHANGE_USER_STATUS,
+  ADD_NEW_USER_SONG
 } from '../actions/types'
 
 const initialState = {
@@ -35,7 +38,6 @@ export default function(state = initialState, action) {
       localStorage.setItem('token', action.payload.token)
       return {
         ...state,
-        ...action.payload,
         isAuthenticated: true,
         isLoading: false
       }
@@ -51,6 +53,37 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         isLoading: false
       }
+    case REMOVE_USER_SONG:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          songs: state.user.songs.filter(song => song._id !== action.payload)
+        }
+      }
+    case CHANGE_USER_STATUS:
+      let currentSongs = state.user.songs.filter(song => song._id !== action.payload.id)
+      let changedSong = state.user.songs.filter(song => song._id === action.payload.id)[0]
+      changedSong = {
+        ...changedSong,
+        status: action.payload.status
+      }
+      const songs = [changedSong, ...currentSongs]
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          songs
+        }
+      }
+      case ADD_NEW_USER_SONG:
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            songs: [action.payload.song, ...state.songs]
+          }
+        }
     default:
       return state
   }
