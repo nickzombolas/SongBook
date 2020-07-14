@@ -28,7 +28,18 @@ class LoginRegister extends Component {
       email: createEmail,
       password: createPassword
     }
-    this.props.createAccount(newUser)
+    this.props.createAccount(newUser).then(() => {
+      this.props.history.push('/')
+    })
+  }
+
+  login = e => {
+    e.preventDefault()
+    const email = this.state.loginEmail
+    const password = this.state.loginPassword
+    this.props.login(email, password).then(() => {
+      this.props.history.push('/')
+    })
   }
 
   render() {
@@ -46,7 +57,7 @@ class LoginRegister extends Component {
                 <Label for="password" type="password">Password</Label>
                 <Input type="password" name="loginPassword" onChange={this.onChange} placeholder="Password" />
               </FormGroup>
-              <Button onClick={() => this.props.login(this.state.loginEmail, this.state.loginPassword)}>Login</Button>
+              <Button onClick={this.login}>Login</Button>
             </Form>
           </div>
           <div className="right">

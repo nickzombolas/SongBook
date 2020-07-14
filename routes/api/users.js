@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if(err)
-          throw err
+          res.json({ message: err })
         newUser.password = hash
         newUser.save().then(user => {
           jwt.sign(

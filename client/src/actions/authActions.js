@@ -19,36 +19,44 @@ export const logout = () => {
 
 // User Login
 export const login = (email, password) => (dispatch, getState) => {
-  const user = { email, password }
-  axios.post('api/auth', user).then(res => {
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data
+  return new Promise((resolve, reject) => {
+    const user = { email, password }
+    axios.post('api/auth', user).then(res => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      })
+      resolve('okay')
+    }).catch(err => {
+      console.log('ERROR: ' + err.response.data.message)
+      if (!getState().ui.error)
+        dispatch(toggleError(err.response.data.message))
+      setTimeout(() => dispatch(toggleError()),
+        3000
+      )
+      reject('error')
     })
-  }).catch(err => {
-    console.log('ERROR: ' + err.response.data.message)
-    if (!getState().ui.error)
-      dispatch(toggleError(err.response.data.message))
-    setTimeout(() => dispatch(toggleError()),
-      3000
-    )
   })
 }
 
 // Create Account
 export const createAccount = (user) => (dispatch, getState) => {
-  axios.post('api/users', user).then(res => {
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data
+  return new Promise((resolve, reject) => {
+    axios.post('api/users', user).then(res => {
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data
+      })
+      resolve('okay')
+    }).catch(err => {
+      console.log('ERROR: ' + err.response.data.message)
+      if (!getState().ui.error)
+        dispatch(toggleError(err.response.data.message))
+      setTimeout(() => dispatch(toggleError()),
+        3000
+      )
+      reject('error')
     })
-  }).catch(err => {
-    console.log('ERROR: ' + err.response.data.message)
-    if (!getState().ui.error)
-      dispatch(toggleError(err.response.data.message))
-    setTimeout(() => dispatch(toggleError()),
-      3000
-    )
   })
 }
 
