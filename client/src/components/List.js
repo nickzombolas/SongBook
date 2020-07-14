@@ -48,7 +48,7 @@ class List extends Component{
                 </ListGroupItem>
                 {
                   (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
-                  <Button onClick={() => this.onChangeStatus(song._id, song.status)} className="float-right" color="light">
+                  <Button onClick={() => this.onChangeStatus(song._id, this.props.auth.user._id, song.status)} className="float-right" color="light">
                     <img className="arrow" src={arrow}></img>
                   </Button>
                   }

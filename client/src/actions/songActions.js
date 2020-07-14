@@ -54,14 +54,14 @@ export const changeStatus = (songID, userID, status) => dispatch => {
       type: CHANGE_STATUS,
       payload: {
         id: songID,
-        status: res.data.status
+        status: res.data
       }
     })
     dispatch({
       type: CHANGE_USER_STATUS,
       payload: {
         id: songID,
-        status: res.data.status
+        status: res.data
       }
     })
   })

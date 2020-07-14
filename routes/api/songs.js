@@ -85,7 +85,7 @@ router.post('/:id', (req, res) => {
         let updatedSongs = user.songs.filter(song => song._id !== req.params.id)
         updatedSongs = [...updatedSongs, newSong]
         User.updateOne({ _id: userID }, { songs: updatedSongs }).then(result => {
-          res.json(result)
+          res.json(status)
         }).catch(err => {
           console.log(err)
         })
