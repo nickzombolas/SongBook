@@ -10,13 +10,17 @@ import {
 import { connect } from 'react-redux';
 
 import { logout } from '../actions/authActions'
+import piano from '../assets/piano.webp'
 
 class AppNavBar extends Component {
 
   render(){
     return(
       <>
-        <Navbar color="dark" expand="md">
+        <div className="header">
+          <img className="header" src={piano} alt="Piano" />
+        </div>
+        <Navbar color="primary" expand="md">
           <NavbarBrand className="text-light font-weight-bold" href="/">SongBook</NavbarBrand>
           <Nav className="mr-auto" navbar>
             <NavItem>
