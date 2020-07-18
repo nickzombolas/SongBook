@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 function auth(req, res, next) {
   const token = req.header('x-auth-token')
   if(!token) 
-    return res.status(401).json({ message: 'Access Denied' })
+    return res.status(401).json({ message: 'You must create an account or log in to perform this action.' })
   try{
     const decodedToken = jwt.verify(token, keys.jwtSecret)
     req.user = decodedToken

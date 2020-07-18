@@ -65,7 +65,7 @@ export const loadUser = () => (dispatch, getState) => {
 
   return new Promise((resolve, reject) => {
     // If logged in get user info from db
-    axios.get('/api/auth/user', tokenConfig(getState)).then(res => {
+    axios.get('/api/auth/user', tokenConfig(getState())).then(res => {
       dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -74,14 +74,14 @@ export const loadUser = () => (dispatch, getState) => {
     }).catch(err => {
       dispatch({ type: AUTH_ERROR })
       console.log('ERROR: ' + err.response.data.message)
-      reject('less okay')
+      reject(err.response.data.message)
     })
   })
 }
 
 //If logged in, add token to config object
-export const tokenConfig = getState => {
-  const token = getState().auth.token
+export const tokenConfig = state => {
+  const token = state.auth.token
   const config = {
     headers: {
       "Content-type": "application/json"

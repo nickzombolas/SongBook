@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { createAccount, login } from '../actions/authActions'
+import { getSongs } from '../actions/songActions'
 
 class LoginRegister extends Component {
 
@@ -38,6 +39,7 @@ class LoginRegister extends Component {
     const email = this.state.loginEmail
     const password = this.state.loginPassword
     this.props.login(email, password).then(() => {
+      this.props.getSongs(this.props.auth.user.songs)
       this.props.history.push('/')
     })
   }
@@ -96,5 +98,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createAccount, login })
+  { createAccount, login, getSongs })
   (LoginRegister)

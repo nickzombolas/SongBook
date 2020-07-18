@@ -9,7 +9,7 @@ import {
   CHANGE_USER_STATUS
   } from './types'
 
-export const getSongs = (userSongs) => dispatch => { //NEED TO CHANGE backend
+export const getSongs = (userSongs) => dispatch => {
   let songs = []
   userSongs.forEach(song => {
     songs.push(song._id)

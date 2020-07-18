@@ -15,13 +15,15 @@ import { getSongs } from './actions/songActions'
 import LoginRegister from './components/LoginRegister';
 
 class App extends Component {
-  
+
   componentDidMount(){
     store.dispatch(loadUser()).then(() => {
       if(store.getState().auth.isAuthenticated){
         console.log(store.getState().auth.user.songs)
         store.dispatch(getSongs(store.getState().auth.user.songs))
       }
+    }).catch(err => {
+      console.log(err)
     })
   }
 

@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 
 // GET
 // query for a song title
-router.get('/search/:title', (req, res) => {
+router.get('/search/:title', auth, (req, res) => {
   const splitTitle = req.params.title.split(' ')
   let title = []
   splitTitle.forEach(word => {

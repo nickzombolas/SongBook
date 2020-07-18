@@ -7,6 +7,7 @@ import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { changeStatus } from '../actions/songActions'
 import { toggleError, displayMessage } from '../actions/uiActions'
+import { tokenConfig } from '../actions/authActions'
 
 
 class Search extends Component {
@@ -32,10 +33,14 @@ class Search extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    if((this.state.search === '' || this.state.search === null) && !this.props.ui.error)
-      this.props.toggleError()
+    if((this.state.search === '' || this.state.search === null) && !this.props.ui.error){
+      this.props.toggleError('Please enter a song title before searching.')
+      setTimeout(() => this.props.toggleError(),
+        3000
+      )
+    }
     else{
-      axios.get(`/api/songs/search/${this.state.search}`).then(res => {
+      axios.get(`/api/songs/search/${this.state.search}`, tokenConfig(this.props)).then(res => {
         const results = res.data
         this.setState({
           ...this.state,
@@ -43,8 +48,8 @@ class Search extends Component {
           searched: true,
           error: false
         })
-        if(this.props.ui.error)
-          this.props.toggleError()
+      }).catch(err => {
+        this.props.toggleError(err.response.data.message)
       })
     }
   }
@@ -67,7 +72,7 @@ class Search extends Component {
           </InputGroup>
           {
             this.props.ui.error &&
-            <Alert className="text-left" color="danger">Please enter a song title before searching.</Alert>
+            <Alert className="text-left" color="danger">{this.props.ui.errorMessage}</Alert>
           }
         </Form>
         {
