@@ -17,9 +17,6 @@ class AppNavBar extends Component {
   render(){
     return(
       <>
-        <div className="header">
-          <img className="header" src={piano} alt="Piano" />
-        </div>
         <Navbar color="primary" expand="md">
           <NavbarBrand className="text-light font-weight-bold" href="/">SongBook</NavbarBrand>
           <Nav className="mr-auto" navbar>
