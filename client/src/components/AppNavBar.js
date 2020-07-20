@@ -10,7 +10,6 @@ import {
 import { connect } from 'react-redux';
 
 import { logout } from '../actions/authActions'
-import piano from '../assets/piano.webp'
 
 class AppNavBar extends Component {
 
@@ -24,12 +23,10 @@ class AppNavBar extends Component {
               <NavLink className="text-light" href="/about">About</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="text-light" href="https://github.com/nickzombolas/SongBook">GitHub</NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink className="text-light" href="/search">Search</NavLink>
             </NavItem>
           </Nav>
+          <NavLink className="text-light" href="https://github.com/nickzombolas/SongBook">GitHub</NavLink>
           { this.props.auth.isAuthenticated &&
             (
               <NavLink>
