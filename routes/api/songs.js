@@ -10,8 +10,10 @@ const User = require('../../models/User')
 // Find all Songs associated with a user
 router.get('/', (req, res) => {
   const { songs } = req.query
-  Song.find({ _id : { $in : songs }}).then(result => {
+  Song.find({ _id : { $in : songs }}).sort({ date: -1 }).then(result => {
     res.json(result)
+  }).catch(err=> {
+    console.log(err)
   })
 })
 
@@ -31,10 +33,21 @@ router.get('/search/:title', auth, (req, res) => {
 
 // POST
 // Create a new song
-// Access: Protected
-router.post('/', auth, (req, res) => {
-  Song.create(req.body.song).then((song, err) => {
-    console.log(song)
+router.post('/', (req, res) => {
+  const { song, userID } = req.body
+  Song.create(song).then((song, err) => {
+    User.findById({ _id: userID }).then(user => {
+      const newSong = {
+        _id: song._id,
+        status: song.status
+      }
+      const newSongs = [newSong, ...user.songs]
+      User.updateOne({ _id: userID }, { songs: newSongs }).then(user => {
+        res.json(user)
+      }).catch(err => {
+        res.json({ message: 'Error updating user songs' })
+      })
+    })
     res.json(song)
   }).catch(err => {
     console.log(err)

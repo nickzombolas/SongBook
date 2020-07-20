@@ -79,15 +79,20 @@ export const changeStatus = (songID, userID, status) => (dispatch, getState) => 
 }
 
 // Add new song to the db
-export const addNewSong = song => dispatch => {
-  axios.post('/api/songs', { song }).then(res => {
+export const addNewSong = song => (dispatch, getState) => {
+  const userID = getState().auth.user._id
+  axios.post('/api/songs', { song, userID }).then(res => {
     dispatch({
       type: ADD_NEW_SONG,
-      payload: song
+      payload: {
+        song
+      }
     })
     dispatch({
       type: ADD_NEW_USER_SONG,
-      payload: song
+      payload: {
+        song
+      }
     })
   })
 }
