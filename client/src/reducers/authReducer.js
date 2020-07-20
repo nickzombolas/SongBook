@@ -82,7 +82,7 @@ export default function(state = initialState, action) {
           ...state,
           user: {
             ...state.user,
-            songs: [action.payload.song, ...state.songs]
+            songs: state.user.songs.length < 1 ? [action.payload.song] : [action.payload.song, ...state.user.songs]
           }
         }
     default:

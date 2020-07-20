@@ -40,7 +40,7 @@ class List extends Component{
                   className="remove-btn float-left"
                   color="danger"
                   size="sm"
-                  onClick={() => this.onChangeStatus(song._id, this.props.auth.user.id)}
+                  onClick={() => this.onChangeStatus(song._id, this.props.auth.user._id)}
                 >
                 &times;</Button>
                 <ListGroupItem className="right text-center" onClick={this.onClick}>
@@ -48,7 +48,7 @@ class List extends Component{
                 </ListGroupItem>
                 {
                   (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
-                  <Button onClick={() => this.onChangeStatus(song._id, this.props.auth.user.id, song.status)} className="float-right" color="light">
+                  <Button onClick={() => this.onChangeStatus(song._id, this.props.auth.user._id, song.status)} className="float-right" color="light">
                     <img className="arrow" src={arrow}></img>
                   </Button>
                 }

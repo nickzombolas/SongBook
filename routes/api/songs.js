@@ -43,8 +43,6 @@ router.post('/', auth, (req, res) => {
 
 // POST
 // Update one song
-
-//this is stupid, break into 3 routes
 router.post('/:id', (req, res) => {
   const { status, userID } = req.body
   if(status === undefined) { 
@@ -61,9 +59,6 @@ router.post('/:id', (req, res) => {
     })
   }
   else{
-    // Song.updateOne({ _id: req.params.id }, { status }).then(result => {
-    //   Song.findById({ _id: req.params.id }).then(song => res.json(song))
-    // })
     User.findById({ _id: userID }).then(user => {
       if(user.songs.filter(song => song._id === req.params.id).length === 0) {
         // Add new song to user's list

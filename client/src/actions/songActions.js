@@ -48,22 +48,33 @@ export const removeSong = id => dispatch =>{
 
 // Change the status of a user's song.
 // if undefined, remove from user's list
-export const changeStatus = (songID, userID, status) => dispatch => {
+export const changeStatus = (songID, userID, status) => (dispatch, getState) => {
   axios.post(`/api/songs/${songID}`, { status, userID }).then(res => {
     dispatch({
       type: CHANGE_STATUS,
       payload: {
         id: songID,
-        status: res.data
+        status
       }
     })
-    dispatch({
-      type: CHANGE_USER_STATUS,
-      payload: {
-        id: songID,
-        status: res.data
-      }
-    })
+    if(getState().auth.user.songs === undefined || getState().auth.user.songs.length === 0) {
+      dispatch({
+        type: ADD_NEW_USER_SONG,
+        payload: {
+          id: songID,
+          status
+        }
+      })
+    }
+    else {
+      dispatch({
+        type: CHANGE_USER_STATUS,
+        payload: {
+          id: songID,
+          status
+        }
+      })
+    }
   })
 }
 
