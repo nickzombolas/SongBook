@@ -66,7 +66,7 @@ class Search extends Component {
         <h1>Search for a Song</h1>
         <Form>
           <Label for="search" />
-          <InputGroup>
+          <InputGroup className="search-input">
             <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title" />
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
