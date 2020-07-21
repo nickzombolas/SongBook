@@ -67,7 +67,7 @@ class Search extends Component {
         <Form>
           <Label for="search" />
           <InputGroup className="search-width">
-            <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title" />
+            <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title (Fur Elise, Claire de Lune, etc.)" />
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
           <Alert isOpen={this.props.ui.error} className="text-left search-width" color="danger">{this.props.ui.errorMessage}</Alert>
