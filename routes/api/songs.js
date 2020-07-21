@@ -74,11 +74,8 @@ router.post('/', (req, res) => {
       const newSongs = [newSong, ...user.songs]
       User.updateOne({ _id: userID }, { songs: newSongs }).then(user => {
         res.json(user)
-      }).catch(err => {
-        res.json({ message: 'Error updating user songs' })
       })
     })
-    res.json(song)
   }).catch(err => {
     console.log(err)
   })
