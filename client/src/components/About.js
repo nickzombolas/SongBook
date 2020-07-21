@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import LiveLearn from './LiveLearn'
+
 class About extends Component {
   render(){
     return(
@@ -17,6 +19,7 @@ class About extends Component {
             to see the source code.
           </p>
         </div>
+        <LiveLearn />
       </div>
     )
   }

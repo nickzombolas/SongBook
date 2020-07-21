@@ -31,6 +31,36 @@ router.get('/search/:title', auth, (req, res) => {
   })
 })
 
+router.get('/livelearn', (req, res) => {
+  let userSongIDS = []
+  let songsToSend = []
+  User.findOne({ email: 'nickzombolas@gmail.com' }).then(user => {
+    user.songs.forEach(song => {
+      userSongIDS = [...userSongIDS, song.id]
+    })
+    Song.find({ _id : { $in : userSongIDS }}).then(songInfo => {
+      user.songs.forEach(userSong => {
+        songInfo.forEach(song => {
+          if(userSong._id.toString() === song._id.toString()) {
+            const newSong = {
+              _id: userSong._id,
+              title: song.title,
+              composer: song.composer,
+              status: userSong.status
+            }
+            songsToSend.push(newSong)
+          }
+        })
+      })
+      res.send(songsToSend)
+    }).catch(err=> {
+      console.log(err)
+    })
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
 // POST
 // Create a new song
 router.post('/', (req, res) => {
