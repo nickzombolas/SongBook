@@ -2,6 +2,7 @@ import { TOGGLE_ERROR, SET_MESSAGE, CLEAR_MESSAGE } from '../actions/types'
 
 const initialState = {
   error: false,
+  errorMessage: null,
   message: null
 }
 
@@ -10,7 +11,8 @@ export default function(state = initialState, action){
     case TOGGLE_ERROR:
       return {
         ...state,
-        error: !state.error
+        error: !state.error,
+        errorMessage: action.payload
       }
     case SET_MESSAGE:
       return {

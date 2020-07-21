@@ -18,13 +18,13 @@ class List extends Component{
     this.props.removeSong(id)
   }
 
-  onChangeStatus = (id, status) => {
+  onChangeStatus = (songID, userID, status) => {
     let newStatus = undefined
     if (status === WANT_TO_LEARN)
       newStatus = LEARNING
     else if (status === LEARNING)
       newStatus = LEARNED
-    this.props.changeStatus(id, newStatus)
+    this.props.changeStatus(songID, userID, newStatus)
   }
 
   render(){
@@ -37,10 +37,10 @@ class List extends Component{
             return(
               <div key={song._id} className="container">
                 <Button
-                  className="remove-btn left"
+                  className="remove-btn float-left"
                   color="danger"
                   size="sm"
-                  onClick={() => this.onChangeStatus(song._id)}
+                  onClick={() => this.onChangeStatus(song._id, this.props.auth.user._id)}
                 >
                 &times;</Button>
                 <ListGroupItem className="right text-center" onClick={this.onClick}>
@@ -48,10 +48,10 @@ class List extends Component{
                 </ListGroupItem>
                 {
                   (song.status === WANT_TO_LEARN || song.status === LEARNING) &&
-                  <Button onClick={() => this.onChangeStatus(song._id, song.status)} className="float-right" color="light">
+                  <Button onClick={() => this.onChangeStatus(song._id, this.props.auth.user._id, song.status)} className="float-right" color="light">
                     <img className="arrow" src={arrow}></img>
                   </Button>
-                  }
+                }
               </div>
             )
           })}
@@ -62,7 +62,8 @@ class List extends Component{
 }
 
 const mapStateToProps = state => ({
-  song: state.song
+  song: state.song,
+  auth: state.auth
 })
 
 export default connect(

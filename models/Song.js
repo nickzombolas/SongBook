@@ -12,9 +12,6 @@ const SongSchema = new Schema({
   },
   arranger: {
     type: String,
-  },
-  status: {
-    type: String,
   }
 })
 

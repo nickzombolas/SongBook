@@ -1,18 +1,25 @@
 const express = require('express')
 const router = express.Router()
 
+
+const auth = require('../../middleware/auth')
 const Song = require('../../models/Song')
+const User = require('../../models/User') 
 
 // GET
-// Find all Songs
+// Find all Songs associated with a user
 router.get('/', (req, res) => {
-  Song.find({status: {$exists: true}})
-    .then(songs => res.json(songs))
+  const { songs } = req.query
+  Song.find({ _id : { $in : songs }}).sort({ date: -1 }).then(result => {
+    res.json(result)
+  }).catch(err=> {
+    console.log(err)
+  })
 })
 
 // GET
 // query for a song title
-router.get('/search/:title', (req, res) => {
+router.get('/search/:title', auth, (req, res) => {
   const splitTitle = req.params.title.split(' ')
   let title = []
   splitTitle.forEach(word => {
@@ -24,35 +31,109 @@ router.get('/search/:title', (req, res) => {
   })
 })
 
+router.get('/livelearn', (req, res) => {
+  let userSongIDS = []
+  let songsToSend = []
+  User.findOne({ email: 'nickzombolas@gmail.com' }).then(user => {
+    user.songs.forEach(song => {
+      userSongIDS = [...userSongIDS, song.id]
+    })
+    Song.find({ _id : { $in : userSongIDS }}).then(songInfo => {
+      user.songs.forEach(userSong => {
+        songInfo.forEach(song => {
+          if(userSong._id.toString() === song._id.toString()) {
+            const newSong = {
+              _id: userSong._id,
+              title: song.title,
+              composer: song.composer,
+              status: userSong.status
+            }
+            songsToSend.push(newSong)
+          }
+        })
+      })
+      res.send(songsToSend)
+    }).catch(err=> {
+      console.log(err)
+    })
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
 // POST
 // Create a new song
 router.post('/', (req, res) => {
-  Song.create(req.body.song).then((song, err) => {
-    console.log(song)
-    res.json(song)
+  const { song, userID } = req.body
+  Song.create(song).then((song, err) => {
+    User.findById({ _id: userID }).then(user => {
+      const newSong = {
+        _id: song._id,
+        status: song.status
+      }
+      const newSongs = [newSong, ...user.songs]
+      User.updateOne({ _id: userID }, { songs: newSongs }).then(user => {
+        res.json(user)
+      })
+    })
+  }).catch(err => {
+    console.log(err)
   })
 })
 
 // POST
 // Update one song
-// edit: phase 1 uses this to add/remove status as well.
-// this will be updated in phase 2
 router.post('/:id', (req, res) => {
-  const { status } = req.body
-  if(status === undefined) {
-    Song.updateOne({ _id: req.params.id }, {$unset: {status: ''}}).then(result => {
-      Song.findById({ _id: req.params.id }).then(song =>  res.json(song))
+  const { status, userID } = req.body
+  if(status === undefined) { 
+    // Remove song from users list
+    User.findById({ _id: userID }).then(user => {
+      const newSongs = user.songs.filter(song => song._id !== req.params.id)
+      User.updateOne({ _id: userID }, { songs: newSongs }).then(result => {
+        res.json(result)
+      }).catch(err => {
+        console.log(err)
+      })
+    }).catch(err => {
+      console.log(err)
     })
   }
   else{
-    Song.updateOne({ _id: req.params.id }, { status }).then(result => {
-      Song.findById({ _id: req.params.id }).then(song => res.json(song))
+    User.findById({ _id: userID }).then(user => {
+      if(user.songs.filter(song => song._id === req.params.id).length === 0) {
+        // Add new song to user's list
+        const newSong = {
+          _id: req.params.id,
+          status
+        }
+        const updatedSongs = [...user.songs, newSong]
+        User.updateOne({ _id: userID }, { songs: updatedSongs }).then(result => {
+          res.json(result)
+        })
+      }
+      else {
+        // Change status of song in user's list
+        const newSong = {
+          _id: req.params.id,
+          status
+        }
+        let updatedSongs = user.songs.filter(song => song._id !== req.params.id)
+        updatedSongs = [...updatedSongs, newSong]
+        User.updateOne({ _id: userID }, { songs: updatedSongs }).then(result => {
+          res.json(status)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    }).catch(err => {
+      console.log(err)
     })
   }
 })
 
 // DELETE
 // Delete an Item by ID
+// not used right now
 router.delete('/:id', (req, res) => {
   Song.deleteOne({ _id: req.params.id })
     .then(res.json({ id: req.params.id }))

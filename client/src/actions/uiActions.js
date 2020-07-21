@@ -1,8 +1,9 @@
 import { TOGGLE_ERROR, SET_MESSAGE, CLEAR_MESSAGE } from './types'
 
-export const toggleError = () => {
+export const toggleError = (errorMessage) => {
   return {
-    type: TOGGLE_ERROR
+    type: TOGGLE_ERROR,
+    payload: errorMessage
   }
 }
 

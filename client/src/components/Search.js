@@ -7,6 +7,7 @@ import SongModal from './SongModal'
 import { WANT_TO_LEARN, LEARNING, LEARNED } from '../constants'
 import { changeStatus } from '../actions/songActions'
 import { toggleError, displayMessage } from '../actions/uiActions'
+import { tokenConfig } from '../actions/authActions'
 
 
 class Search extends Component {
@@ -32,10 +33,14 @@ class Search extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    if((this.state.search === '' || this.state.search === null) && !this.props.ui.error)
-      this.props.toggleError()
+    if((this.state.search === '' || this.state.search === null) && !this.props.ui.error){
+      this.props.toggleError('Please enter a song title before searching.')
+      setTimeout(() => this.props.toggleError(),
+        3000
+      )
+    }
     else{
-      axios.get(`/api/songs/search/${this.state.search}`).then(res => {
+      axios.get(`/api/songs/search/${this.state.search}`, tokenConfig(this.props)).then(res => {
         const results = res.data
         this.setState({
           ...this.state,
@@ -43,14 +48,14 @@ class Search extends Component {
           searched: true,
           error: false
         })
-        if(this.props.ui.error)
-          this.props.toggleError()
+      }).catch(err => {
+        this.props.toggleError(err.response.data.message)
       })
     }
   }
 
   addToList = (id, status, title) => {
-    this.props.changeStatus(id, status)
+    this.props.changeStatus(id, this.props.auth.user._id, status)
     this.props.displayMessage(title, status)
   }
   
@@ -61,14 +66,11 @@ class Search extends Component {
         <h1>Search for a Song</h1>
         <Form>
           <Label for="search" />
-          <InputGroup>
+          <InputGroup className="search-width">
             <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title" />
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
-          {
-            this.props.ui.error &&
-            <Alert className="text-left" color="danger">Please enter a song title before searching.</Alert>
-          }
+          <Alert isOpen={this.props.ui.error} className="text-left search-width" color="danger">{this.props.ui.errorMessage}</Alert>
         </Form>
         {
           searched === true &&
@@ -78,11 +80,10 @@ class Search extends Component {
             <SongModal modal={this.state.modal} toggle={this.toggle} />
           </div>
         }
-        {
-          this.props.ui.message !== null &&
-          <Alert color="success">{this.props.ui.message}</Alert>
-        }
-        <ListGroup>
+        <div className="alert">
+          <Alert isOpen={this.props.ui.message !== null} className="search-width" color="success">{this.props.ui.message}</Alert>
+        </div>
+        <ListGroup className="mt-4">
           {
             searched === true && results.length > 0 &&
             this.state.results.map(result => {
@@ -112,7 +113,8 @@ class Search extends Component {
 
 const mapStateToProps = state => ({
   song: state.song,
-  ui: state.ui
+  ui: state.ui,
+  auth: state.auth
 })
 
 export default connect(

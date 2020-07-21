@@ -38,7 +38,7 @@ class SongModal extends Component {
 
     title = title.charAt(0).toUpperCase() + title.slice(1)
     composer = composer.charAt(0).toUpperCase() + composer.slice(1)
-    if((arranger === null) || arranger == '')
+    if((arranger === null) || arranger === '')
       newSong = {
         title,
         composer,
@@ -63,12 +63,13 @@ class SongModal extends Component {
     return(
       <>
         <Modal isOpen={modal} toggle={this.toggle}>
-          <ModalHeader isOpen={modal}>Add a New Song</ModalHeader>
+          <ModalHeader className="justify-content-center" isOpen={modal}>Add a New Song</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.handleOnSubmit}>
               <FormGroup>
                 <Label for="title"><strong>Title</strong> (required)</Label>
                 <Input
+                  className="mb-3"
                   type="text"
                   name="title"
                   id="song"
@@ -78,6 +79,7 @@ class SongModal extends Component {
                 />
                 <Label for="composer"><strong>Composer</strong> (required)</Label>
                 <Input
+                  className="mb-3"
                   type="text"
                   name="composer"
                   id="song"
@@ -87,6 +89,7 @@ class SongModal extends Component {
                 />
                 <Label for="arranger"><strong>Arranger</strong></Label>
                 <Input
+                  className="mb-3"
                   type="text"
                   name="arranger"
                   id="song"
@@ -117,8 +120,10 @@ class SongModal extends Component {
                   </Label>
                 </FormGroup>
               </FormGroup>
-              <Button color="primary">Save</Button>
-              <Button onClick={this.props.toggle} color="secondary">Cancel</Button>
+              <div className="float-right">
+                <Button className="mr-1" onClick={this.props.toggle} color="secondary">Cancel</Button>
+                <Button color="primary">Save</Button>
+              </div>
             </Form>
           </ModalBody>
         </Modal>
