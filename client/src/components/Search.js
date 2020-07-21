@@ -66,14 +66,11 @@ class Search extends Component {
         <h1>Search for a Song</h1>
         <Form>
           <Label for="search" />
-          <InputGroup className="search-input">
+          <InputGroup className="search-width">
             <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title" />
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
-          {
-            this.props.ui.error &&
-            <Alert className="text-left" color="danger">{this.props.ui.errorMessage}</Alert>
-          }
+          <Alert isOpen={this.props.ui.error} className="text-left search-width" color="danger">{this.props.ui.errorMessage}</Alert>
         </Form>
         {
           searched === true &&
@@ -83,11 +80,10 @@ class Search extends Component {
             <SongModal modal={this.state.modal} toggle={this.toggle} />
           </div>
         }
-        {
-          this.props.ui.message !== null &&
-          <Alert color="success">{this.props.ui.message}</Alert>
-        }
-        <ListGroup>
+        <div className="alert">
+          <Alert isOpen={this.props.ui.message !== null} className="search-width" color="success">{this.props.ui.message}</Alert>
+        </div>
+        <ListGroup className="mt-4">
           {
             searched === true && results.length > 0 &&
             this.state.results.map(result => {
