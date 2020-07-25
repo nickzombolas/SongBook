@@ -83,7 +83,7 @@ class Search extends Component {
         <div className="alert">
           <Alert isOpen={this.props.ui.message !== null} className="search-width" color="success">{this.props.ui.message}</Alert>
         </div>
-        <ListGroup className="mt-4">
+        <ListGroup className="mt-4 mb-5">
           {
             searched === true && results.length > 0 &&
             this.state.results.map(result => {
