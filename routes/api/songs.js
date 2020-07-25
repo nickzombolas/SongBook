@@ -64,16 +64,17 @@ router.get('/livelearn', (req, res) => {
 // POST
 // Create a new song
 router.post('/', (req, res) => {
-  const { song, userID } = req.body
-  Song.create(song).then((song, err) => {
+  const userID = req.body.userID
+  const songToAdd = req.body.song
+  Song.create(songToAdd).then(song => {
     User.findById({ _id: userID }).then(user => {
       const newSong = {
         _id: song._id,
-        status: song.status
+        status: songToAdd.status
       }
       const newSongs = [newSong, ...user.songs]
-      User.updateOne({ _id: userID }, { songs: newSongs }).then(user => {
-        res.json(user)
+      User.updateOne({ _id: userID }, { songs: newSongs }).then(res => {
+        res.json(newSong)
       })
     })
   }).catch(err => {

@@ -93,7 +93,7 @@ export const addNewSong = song => (dispatch, getState) => {
     dispatch({
       type: ADD_NEW_USER_SONG,
       payload: {
-        song
+        song: res.data
       }
     })
   })
