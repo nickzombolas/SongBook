@@ -22,12 +22,22 @@ router.get('/', (req, res) => {
 router.get('/search/:title', auth, (req, res) => {
   const splitTitle = req.params.title.split(' ')
   let title = []
+  let capitalizedTitle = ''
   splitTitle.forEach(word => {
     word = word.charAt(0).toUpperCase() + word.slice(1);
     title.push(new RegExp(word))
+    capitalizedTitle = capitalizedTitle + word + ' '
   })
-  Song.find({ title: {$in: title} }).then(songs => {
-    res.json(songs)
+  capitalizedTitle = capitalizedTitle.trim()
+  Song.find({ title: {$in: title} }).then(songResults => {
+    let directMatches = []
+    songResults.forEach(songResult => {
+      if (songResult.title === capitalizedTitle){
+        directMatches = [...directMatches, songResult]
+      }
+    })
+    const songsToSend = directMatches.concat(songResults.filter(song => song.title !== capitalizedTitle))
+    res.json(songsToSend)
   })
 })
 
