@@ -63,11 +63,11 @@ class Search extends Component {
     const { results, searched } = this.state
     return(
       <div className="text-center search">
-        <h1>Search for a Song</h1>
+        <h1>Search for a Song Title</h1>
         <Form>
           <Label for="search" />
           <InputGroup className="search-width">
-            <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title (Fur Elise, Claire de Lune, etc.)" />
+            <Input name="search" onChange={this.handleChange} placeholder="Please enter a song title (Fur Elise, Clair de Lune, etc.)" />
             <Button type="submit" onClick={this.handleSubmit}>Search</Button>
           </InputGroup>
           <Alert isOpen={this.props.ui.error} className="text-left search-width" color="danger">{this.props.ui.errorMessage}</Alert>
