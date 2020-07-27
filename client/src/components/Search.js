@@ -59,6 +59,12 @@ class Search extends Component {
     this.props.displayMessage(title, status)
   }
   
+  disabled = (_id, status) => {
+    if (this.props.auth.user.songs.filter(song => (song._id === _id) && song.status === status).length === 0)
+      return false
+    return true
+  }
+
   render(){
     const { results, searched } = this.state
     return(
@@ -93,9 +99,26 @@ class Search extends Component {
                     {result.title}, {result.composer}
                   </div>
                   <div className="float-right">
-                    <Button onClick={() => this.addToList(result._id, WANT_TO_LEARN, result.title)} className="mr-3">Want to Learn</Button>
-                    <Button onClick={() => this.addToList(result._id, LEARNING, result.title)} className="mr-3">Learning</Button>
-                    <Button onClick={() => this.addToList(result._id, LEARNED, result.title)}>Learned</Button>
+                    <Button
+                      disabled={this.disabled(result._id, WANT_TO_LEARN)}
+                      onClick={() => this.addToList(result._id, WANT_TO_LEARN, result.title)}
+                      className="mr-3"
+                    >
+                      Want to Learn
+                    </Button>
+                    <Button
+                      disabled={this.disabled(result._id, LEARNING)}
+                      onClick={() => this.addToList(result._id, LEARNING, result.title)}
+                      className="mr-3"
+                    >
+                      Learning
+                    </Button>
+                    <Button
+                      disabled={this.disabled(result._id, LEARNED)}
+                      onClick={() => this.addToList(result._id, LEARNED, result.title)}
+                    >
+                      Learned
+                    </Button>
                   </div>
                 </ListGroupItem>
               )

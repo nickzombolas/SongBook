@@ -63,10 +63,9 @@ export default function(state = initialState, action) {
         }
       }
     case CHANGE_USER_STATUS:
-      let currentSongs = state.user.songs.filter(song => song._id !== action.payload.id)
-      let changedSong = state.user.songs.filter(song => song._id === action.payload.id)[0]
-      changedSong = {
-        ...changedSong,
+      let currentSongs = state.user.songs.filter(song => song._id !== action.payload._id)
+      const changedSong = {
+        _id: action.payload._id,
         status: action.payload.status
       }
       const songs = [changedSong, ...currentSongs]

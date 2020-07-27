@@ -72,7 +72,7 @@ export const changeStatus = (songID, userID, status) => (dispatch, getState) => 
       dispatch({
         type: CHANGE_USER_STATUS,
         payload: {
-          id: songID,
+          _id: songID,
           status
         }
       })
