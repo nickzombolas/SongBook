@@ -75,7 +75,28 @@ router.get('/livelearn', (req, res) => {
 // Create a new song
 router.post('/', (req, res) => {
   const userID = req.body.userID
-  const songToAdd = req.body.song
+  let splitTitle = req.body.song.title.split(' ')
+  let capitalizedTitle = ''
+  splitTitle.forEach(word => {
+    word = word.charAt(0).toUpperCase() + word.slice(1);
+    capitalizedTitle = capitalizedTitle + word + ' '
+  })
+  capitalizedTitle = capitalizedTitle.trim()
+
+  let splitComposer = req.body.song.composer.split(' ')
+  let capitalizedComposer = ''
+  splitComposer.forEach(word => {
+    word = word.charAt(0).toUpperCase() + word.slice(1);
+    capitalizedComposer = capitalizedComposer + word + ' '
+  })
+  capitalizedComposer = capitalizedComposer.trim()
+
+  const songToAdd = {
+    ...req.body.song,
+    title: capitalizedTitle,
+    composer: capitalizedComposer
+  }
+
   Song.create(songToAdd).then(song => {
     User.findById({ _id: userID }).then(user => {
       const newSong = {
@@ -83,7 +104,7 @@ router.post('/', (req, res) => {
         status: songToAdd.status
       }
       const newSongs = [newSong, ...user.songs]
-      User.updateOne({ _id: userID }, { songs: newSongs }).then(res => {
+      User.updateOne({ _id: userID }, { songs: newSongs }).then(() => {
         res.json(newSong)
       })
     })
