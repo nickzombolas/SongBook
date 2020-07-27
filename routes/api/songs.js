@@ -97,19 +97,25 @@ router.post('/', (req, res) => {
     composer: capitalizedComposer
   }
 
-  Song.create(songToAdd).then(song => {
-    User.findById({ _id: userID }).then(user => {
-      const newSong = {
-        _id: song._id,
-        status: songToAdd.status
-      }
-      const newSongs = [newSong, ...user.songs]
-      User.updateOne({ _id: userID }, { songs: newSongs }).then(() => {
-        res.json(newSong)
+  Song.find({ title: capitalizedTitle, composer: capitalizedComposer }).then(results => {
+    if (results.length > 0)
+      res.status(400).json({ message: "A song with the same title and composer already exists." })
+    else {
+      Song.create(songToAdd).then(song => {
+        User.findById({ _id: userID }).then(user => {
+          const newSong = {
+            _id: song._id,
+            status: songToAdd.status
+          }
+          const newSongs = [newSong, ...user.songs]
+          User.updateOne({ _id: userID }, { songs: newSongs }).then(() => {
+            res.json(newSong)
+          })
+        })
+      }).catch(err => {
+        console.log(err)
       })
-    })
-  }).catch(err => {
-    console.log(err)
+    }
   })
 })
 
