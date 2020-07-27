@@ -98,7 +98,7 @@ class Search extends Component {
                   <div className="float-left mt-2">
                     {result.title}, {result.composer}
                   </div>
-                  <div className="float-right">
+                  <div className="float-right ml-auto">
                     <Button
                       disabled={this.disabled(result._id, WANT_TO_LEARN)}
                       onClick={() => this.addToList(result._id, WANT_TO_LEARN, result.title)}
