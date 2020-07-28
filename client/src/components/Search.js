@@ -16,7 +16,17 @@ class Search extends Component {
     search: null,
     modal: false,
     results: [],
-    searched: false,
+    searched: false
+  }
+
+  componentDidMount() {
+    while(this.props.auth.isLoading){}
+      axios.get('/api/songs/popular', tokenConfig(this.props)).then(res => {
+        this.setState({
+          ...this.state,
+          results: res.data
+        })
+      })
   }
 
   handleChange = e => {
@@ -86,12 +96,19 @@ class Search extends Component {
             <SongModal modal={this.state.modal} toggle={this.toggle} />
           </div>
         }
+        {
+          searched === false && this.props.auth.isAuthenticated &&
+          <>
+            <h2 className="mt-5 mb-3">Popular Songs</h2>
+            <p>You can search the database for a song title you're looking for, or browse popular songs below.</p>
+          </>
+        }
         <div className="alert">
           <Alert isOpen={this.props.ui.message !== null} className="search-width" color="success">{this.props.ui.message}</Alert>
         </div>
         <ListGroup className="mt-4 mb-5">
           {
-            searched === true && results.length > 0 &&
+            results.length > 0 && this.props.auth.isAuthenticated &&
             this.state.results.map(result => {
               return (
                 <ListGroupItem key={result._id} className="container">

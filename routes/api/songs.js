@@ -41,6 +41,26 @@ router.get('/search/:title', auth, (req, res) => {
   })
 })
 
+// GET
+// Fetches list of popular songs for search page
+router.get('/popular', auth, (req, res) => {
+  const ids = [
+    '5ef8f3a30c80bb67b13b8403',
+    '5efa3bc1deec8525bc4ebe1c',
+    '5ef8f3a30c80bb67b13b849a',
+    '5f2087366c264f7eb2bf1789',
+    '5f164d71225e119049ea30eb',
+    '5f208d391f0c3485a2fdbb91'
+  ]
+  Song.find({_id: {$in: ids}}).then(songs => {
+    res.json(songs)
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
+// GET
+// Fetches live SongBook from my account
 router.get('/livelearn', (req, res) => {
   let userSongIDS = []
   let songsToSend = []
