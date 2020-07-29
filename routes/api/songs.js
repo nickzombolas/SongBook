@@ -46,13 +46,22 @@ router.get('/search/:title', auth, (req, res) => {
 router.get('/popular', auth, (req, res) => {
   const ids = [
     '5ef8f3a30c80bb67b13b8403',
+    '5f21a6ae46c6b1b2974d26bc',
     '5efa3bc1deec8525bc4ebe1c',
     '5ef8f3a30c80bb67b13b849a',
     '5f2087366c264f7eb2bf1789',
+    '5f21a63d490033ae3697e8fc',
     '5f164d71225e119049ea30eb',
-    '5f208d391f0c3485a2fdbb91'
+    '5f208d391f0c3485a2fdbb91',
+    '5f21a1ef2a9a24a17142c2b0',
+    '5f21a446dae16eaac245a839',
+    '5f21a7b7ff0991b4be349a22',
+    '5f21a9d624dab0b5ebf273d3',
+    '5f21ac66742f78bacb445d9f',
+    '5f21ade642c7ecbf1b22c2e7',
+    '5f21ae707d029cc199d6ffd1'
   ]
-  Song.find({_id: {$in: ids}}).then(songs => {
+  Song.find({_id: {$in: ids}}).sort({date: -1}).then(songs => {
     res.json(songs)
   }).catch(err => {
     console.log(err)
