@@ -5,7 +5,8 @@ import { Button,
   ModalBody,
   Form,
   FormGroup,
-  Label
+  Label,
+  Alert
  } from 'reactstrap'
 import Input from 'reactstrap/lib/Input'
 import { connect } from 'react-redux'
@@ -22,7 +23,8 @@ class SongModal extends Component {
     title: null,
     composer: null,
     arranger: null,
-    status: null
+    status: null,
+    errorMessage: null
   }
 
   handleChange = e => {
@@ -36,8 +38,6 @@ class SongModal extends Component {
     let { title, composer, arranger, status } = this.state
     let newSong = {}
 
-    title = title.charAt(0).toUpperCase() + title.slice(1)
-    composer = composer.charAt(0).toUpperCase() + composer.slice(1)
     if((arranger === null) || arranger === '')
       newSong = {
         title,
@@ -53,9 +53,21 @@ class SongModal extends Component {
         status
       }
     }
-    this.props.addNewSong(newSong)
-    this.props.toggle()
-    this.props.displayMessage(title, status)
+    this.props.addNewSong(newSong).then(() => {
+      this.props.toggle()
+      this.props.displayMessage(title, status)
+    }).catch(err => {
+      this.setState({
+        ...this.state,
+        errorMessage: err
+      })
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          errorMessage: null
+        })
+      }, 3000)
+    })
   }
 
   render(){
@@ -120,6 +132,9 @@ class SongModal extends Component {
                   </Label>
                 </FormGroup>
               </FormGroup>
+              { this.state.errorMessage !== null &&
+                <Alert color="danger">{this.state.errorMessage}</Alert>
+              }
               <div className="float-right">
                 <Button className="mr-1" onClick={this.props.toggle} color="secondary">Cancel</Button>
                 <Button color="primary">Save</Button>

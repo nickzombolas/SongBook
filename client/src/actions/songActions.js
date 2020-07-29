@@ -72,7 +72,7 @@ export const changeStatus = (songID, userID, status) => (dispatch, getState) => 
       dispatch({
         type: CHANGE_USER_STATUS,
         payload: {
-          id: songID,
+          _id: songID,
           status
         }
       })
@@ -83,18 +83,25 @@ export const changeStatus = (songID, userID, status) => (dispatch, getState) => 
 // Add new song to the db
 export const addNewSong = song => (dispatch, getState) => {
   const userID = getState().auth.user._id
-  axios.post('/api/songs', { song, userID }).then(res => {
-    dispatch({
-      type: ADD_NEW_SONG,
-      payload: {
-        song
-      }
+
+  return new Promise((resolve, reject) => {
+    axios.post('/api/songs', { song, userID }).then(res => {
+      dispatch({
+        type: ADD_NEW_SONG,
+        payload: {
+          song
+        }
+      })
+      dispatch({
+        type: ADD_NEW_USER_SONG,
+        payload: {
+          song: res.data
+        }
+      })
+      resolve('okay')
+    }).catch(err => {
+      reject(err.response.data.message)
     })
-    dispatch({
-      type: ADD_NEW_USER_SONG,
-      payload: {
-        song
-      }
-    })
+
   })
 }

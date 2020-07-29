@@ -16,7 +16,7 @@ class AppNavBar extends Component {
   render(){
     return(
       <>
-        <Navbar color="primary" expand="md">
+        <Navbar color="primary" expand="md" className="sticky-top">
           <NavbarBrand className="text-light font-weight-bold" href="/">SongBook</NavbarBrand>
           <Nav className="mr-auto" navbar>
             <NavItem>

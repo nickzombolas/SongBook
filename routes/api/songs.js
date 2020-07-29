@@ -22,15 +22,54 @@ router.get('/', (req, res) => {
 router.get('/search/:title', auth, (req, res) => {
   const splitTitle = req.params.title.split(' ')
   let title = []
+  let capitalizedTitle = ''
   splitTitle.forEach(word => {
     word = word.charAt(0).toUpperCase() + word.slice(1);
     title.push(new RegExp(word))
+    capitalizedTitle = capitalizedTitle + word + ' '
   })
-  Song.find({ title: {$in: title} }).then(songs => {
-    res.json(songs)
+  capitalizedTitle = capitalizedTitle.trim()
+  Song.find({ title: {$in: title} }).then(songResults => {
+    let directMatches = []
+    songResults.forEach(songResult => {
+      if (songResult.title === capitalizedTitle){
+        directMatches = [...directMatches, songResult]
+      }
+    })
+    const songsToSend = directMatches.concat(songResults.filter(song => song.title !== capitalizedTitle))
+    res.json(songsToSend)
   })
 })
 
+// GET
+// Fetches list of popular songs for search page
+router.get('/popular', auth, (req, res) => {
+  const ids = [
+    '5ef8f3a30c80bb67b13b8403',
+    '5f21a6ae46c6b1b2974d26bc',
+    '5efa3bc1deec8525bc4ebe1c',
+    '5ef8f3a30c80bb67b13b849a',
+    '5f2087366c264f7eb2bf1789',
+    '5f21a63d490033ae3697e8fc',
+    '5f164d71225e119049ea30eb',
+    '5f208d391f0c3485a2fdbb91',
+    '5f21a1ef2a9a24a17142c2b0',
+    '5f21a446dae16eaac245a839',
+    '5f21a7b7ff0991b4be349a22',
+    '5f21a9d624dab0b5ebf273d3',
+    '5f21ac66742f78bacb445d9f',
+    '5f21ade642c7ecbf1b22c2e7',
+    '5f21ae707d029cc199d6ffd1'
+  ]
+  Song.find({_id: {$in: ids}}).sort({date: -1}).then(songs => {
+    res.json(songs)
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
+// GET
+// Fetches live SongBook from my account
 router.get('/livelearn', (req, res) => {
   let userSongIDS = []
   let songsToSend = []
@@ -64,20 +103,48 @@ router.get('/livelearn', (req, res) => {
 // POST
 // Create a new song
 router.post('/', (req, res) => {
-  const { song, userID } = req.body
-  Song.create(song).then((song, err) => {
-    User.findById({ _id: userID }).then(user => {
-      const newSong = {
-        _id: song._id,
-        status: song.status
-      }
-      const newSongs = [newSong, ...user.songs]
-      User.updateOne({ _id: userID }, { songs: newSongs }).then(user => {
-        res.json(user)
+  const userID = req.body.userID
+  let splitTitle = req.body.song.title.split(' ')
+  let capitalizedTitle = ''
+  splitTitle.forEach(word => {
+    word = word.charAt(0).toUpperCase() + word.slice(1);
+    capitalizedTitle = capitalizedTitle + word + ' '
+  })
+  capitalizedTitle = capitalizedTitle.trim()
+
+  let splitComposer = req.body.song.composer.split(' ')
+  let capitalizedComposer = ''
+  splitComposer.forEach(word => {
+    word = word.charAt(0).toUpperCase() + word.slice(1);
+    capitalizedComposer = capitalizedComposer + word + ' '
+  })
+  capitalizedComposer = capitalizedComposer.trim()
+
+  const songToAdd = {
+    ...req.body.song,
+    title: capitalizedTitle,
+    composer: capitalizedComposer
+  }
+
+  Song.find({ title: capitalizedTitle, composer: capitalizedComposer }).then(results => {
+    if (results.length > 0)
+      res.status(400).json({ message: "A song with the same title and composer already exists." })
+    else {
+      Song.create(songToAdd).then(song => {
+        User.findById({ _id: userID }).then(user => {
+          const newSong = {
+            _id: song._id,
+            status: songToAdd.status
+          }
+          const newSongs = [newSong, ...user.songs]
+          User.updateOne({ _id: userID }, { songs: newSongs }).then(() => {
+            res.json(newSong)
+          })
+        })
+      }).catch(err => {
+        console.log(err)
       })
-    })
-  }).catch(err => {
-    console.log(err)
+    }
   })
 })
 

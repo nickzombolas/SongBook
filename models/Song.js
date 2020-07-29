@@ -12,6 +12,10 @@ const SongSchema = new Schema({
   },
   arranger: {
     type: String,
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 })
 
