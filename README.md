@@ -26,3 +26,7 @@ To run the whole app: `npm run dev`.
 The app is written using the MERN stack (MongoDB, Express, React, Node.js), with frontend state management implemented with Redux.
 The goal was to learn how to build and maintain a database with MongoDB, and build a web application to interface with it.
 As I am more interested in backend development, the focus of the project was more about designing the server and database rather than frontend styling.
+
+To interact with the database, a user must make an account. On account creation, a token (JSON Web Token) is created for user authentication,
+and the user's information is stored in the database. Password hashing is done using bcrypt. Once logged in, the user can access protected routes such as querying the database.
+The user can add as many songs as they like to their three lists: "Want to Learn", "Learning", or "Learned". Users can promote these songs to the "Learned" section as they practice and get better, developing a list of songs they can share with anybody interested in hearing them play.
