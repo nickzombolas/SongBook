@@ -4,7 +4,26 @@
 Try the app here:
 
 Note: As of July 2022, the database is no longer active. Some features may not work as expected.
-https://floating-everglades-95969.herokuapp.com/
+Note: SongBook is no longer in development. 
+~~https://floating-everglades-95969.herokuapp.com/~~
+
+
+
+# Screenshots
+
+### Landing Page
+![Landing Page](image-2.png)
+
+### Login or Signup
+![Login or Signup](image-1.png)
+
+### Search the Database
+![Search for a Song Title](image.png)
+
+### About Page with Empty Songbook
+Unfortunately the database is no longer active, so my live learning isn't visible
+![About](image-3.png)
+
 
 
 # Installation
