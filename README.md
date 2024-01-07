@@ -4,8 +4,21 @@
 Try the app here:
 
 Note: As of July 2022, the database is no longer active. Some features may not work as expected.
+
 Note: SongBook is no longer in development. 
+
 ~~https://floating-everglades-95969.herokuapp.com/~~
+
+
+
+# Tech Used / Motivation
+The app is written using the MERN stack (MongoDB, Express, React, Node.js), with frontend state management implemented with Redux.
+The goal was to learn how to build and maintain a database with MongoDB, and build a web application to interface with it.
+As I am more interested in backend development, the focus of the project was more about designing the server and database rather than frontend styling.
+
+To interact with the database, a user must make an account. On account creation, a token (JSON Web Token) is created for user authentication,
+and the user's information is stored in the database. Password hashing is done using bcrypt. Once logged in, the user can access protected routes such as querying the database.
+The user can add as many songs as they like to their three lists: "Want to Learn", "Learning", or "Learned". Users can promote these songs to the "Learned" section as they practice and get better, developing a list of songs they can share with anybody interested in hearing them play.
 
 
 
@@ -25,8 +38,9 @@ Unfortunately the database is no longer active, so my live learning isn't visibl
 ![About](image-3.png)
 
 
-
 # Installation
+
+Note: Installation will not work going forward as this project is no longer maintained.
 
 Make sure to have the following installed:
 - Node.js v10.20.1
@@ -43,12 +57,3 @@ To run the client: `npm run client`.
 To run the server: `npm run server`.
 
 To run the whole app: `npm run dev`.
-
-# Tech Used / Motivation
-The app is written using the MERN stack (MongoDB, Express, React, Node.js), with frontend state management implemented with Redux.
-The goal was to learn how to build and maintain a database with MongoDB, and build a web application to interface with it.
-As I am more interested in backend development, the focus of the project was more about designing the server and database rather than frontend styling.
-
-To interact with the database, a user must make an account. On account creation, a token (JSON Web Token) is created for user authentication,
-and the user's information is stored in the database. Password hashing is done using bcrypt. Once logged in, the user can access protected routes such as querying the database.
-The user can add as many songs as they like to their three lists: "Want to Learn", "Learning", or "Learned". Users can promote these songs to the "Learned" section as they practice and get better, developing a list of songs they can share with anybody interested in hearing them play.
